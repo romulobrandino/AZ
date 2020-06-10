@@ -5,7 +5,7 @@ https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 
 ## Install Azure CLI on Windows
 
-You can also install the Azure CLI using PowerShell. Start PowerShell as administrator and run the following command:
+You can also install the Azure CLI using PowerShell. Start PowerShell as administrator and run the following command: Should be in Administrator mode....
 
 ```PowerShell
 Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'; rm .\AzureCLI.msi
@@ -30,7 +30,7 @@ Sign in with your account credentials in the browser.
 To learn more about different authentication methods, see Sign in with Azure CLI.
 
 
-## Install Azure in Linux
+## Install Azure in Linux, for example in Ubuntu WSL 2 (Windows Subsystem for Linux)
 
 If you are running a distribution that comes with apt, such as Ubuntu or Debian, there's an x86_64 package available for the Azure CLI. This package has been tested with and is supported for:
 
