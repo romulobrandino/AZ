@@ -97,3 +97,6 @@ Otherwise, open a browser page at https://aka.ms/devicelogin and enter the autho
 Sign in with your account credentials in the browser.
 
 To learn more about different authentication methods, see Sign in with Azure CLI.
+
+
+You can test the connection with ``az account list``
