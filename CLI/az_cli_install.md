@@ -99,4 +99,4 @@ Sign in with your account credentials in the browser.
 To learn more about different authentication methods, see Sign in with Azure CLI.
 
 
-You can test the connection with ``az account list``
+You can test the connection with ``az account list`` or az account -h
