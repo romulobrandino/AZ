@@ -24,7 +24,11 @@ az login
 
 ## Install Azure in Linux
 
+If you are running a distribution that comes with apt, such as Ubuntu or Debian, there's an x86_64 package available for the Azure CLI. This package has been tested with and is supported for:
 
+* Ubuntu trusty, xenial, artful, bionic, and disco
+* Debian wheezy, jessie, stretch, and buster
+The current version of the Azure CLI is 2.7.0. For information about the latest release, see the release notes. To find your installed version and see if you need to update, run ``az --version.``
 
 ### Install Azure CLI with apt
 
