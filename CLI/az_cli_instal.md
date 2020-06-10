@@ -21,6 +21,14 @@ You can now run the Azure CLI with the az command from either Windows Command Pr
 az login
 ```
 
+If the CLI can open your default browser, it will do so and load an Azure sign-in page.
+
+Otherwise, open a browser page at https://aka.ms/devicelogin and enter the authorization code displayed in your terminal.
+
+Sign in with your account credentials in the browser.
+
+To learn more about different authentication methods, see Sign in with Azure CLI.
+
 
 ## Install Azure in Linux
 
