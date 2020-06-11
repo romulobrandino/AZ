@@ -1,5 +1,7 @@
 # Create virtual machines with the Azure CLI
 
+https://docs.microsoft.com/en-us/cli/azure/azure-cli-vm-tutorial?view=azure-cli-latest
+
 In this tutorial, you learn all of the steps involved in setting up a virtual machine with the Azure CLI. The tutorial also covers output queries, Azure resource reuse, and resource cleanup.
 
 This tutorial can be completed with the interactive experienced offered through Azure Cloud Shell, or you may install the CLI locally.
