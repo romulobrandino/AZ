@@ -93,10 +93,108 @@ Now that you have the NIC ID, run az network nic show to get its information. No
 ```Bash
 az network nic show --ids $NIC_ID
 ```
+This command shows all of the information for the network interface of the VM. This data includes DNS settings, IP information, security settings, and the MAC address. Right now the goal is to obtain the public IP address and subnet object IDs.
+```AzureCLI
+az network nic show --ids $NIC_ID \
+  --query '{IP:ipConfigurations[].publicIpAddress.id, Subnet:ipConfigurations[].subnet.id}' \
+  -o json
+```
+```JSON
+{
+  "IP": [
+    "/subscriptions/.../resourceGroups/TutorialResources/providers/Microsoft.Network/publicIPAddresses/TutorialVM1PublicIP"
+  ],
+  "Subnet": [
+    "/subscriptions/.../resourceGroups/TutorialResources/providers/Microsoft.Network/virtualNetworks/TutorialVM1VNET/subnets/TutorialVM1Subnet"
+  ]
+}
+```
+This command displays a JSON object that has custom keys ('IP' and 'Subnet') for the extracted values. While this style of output might not be useful for command-line tools, it helps with human readability and can be used with custom scripts.
+
+In order to use command-line tools, change the command to remove the custom JSON keys and output as ``tsv``. This style of output can be processed by the shell read command to load results into multiple variables. Since two values on separate lines are displayed, the read command delimiter must be set to the empty string rather than the default of non-newline whitespace.
+```Bash
+read -d '' IP_ID SUBNET_ID <<< $(az network nic show \
+  --ids $NIC_ID \
+  --query '[ipConfigurations[].publicIpAddress.id, ipConfigurations[].subnet.id]' \
+  -o tsv)
+```
+You won't use the subnet ID right away, but it should be stored now to avoid having to perform a second lookup later. For now, use the public IP object ID to look up the public IP address and store it in a shell variable.
+```Bash
+VM1_IP_ADDR=$(az network public-ip show --ids $IP_ID \
+  --query ipAddress \
+  -o tsv)
+```
+Now you have the IP address of the VM stored in a shell variable. Go ahead and check that it is the same value that you used to initially connect to the VM.
+```Bash
+echo $VM1_IP_ADDR
+```
+
+## Creating a new VM on the existing subnet
+The second VM uses the existing subnet. You can skip a few steps to get the public IP address of the new VM stored into an environment variable right away, since it's returned in the VM creation information. If you'd need other information about the VM later, it can always be obtained from the ``az vm``show command.
+
+```Bash
+VM2_IP_ADDR=$(az vm create -g TutorialResources \
+  -n TutorialVM2 \
+  --image UbuntuLTS \
+  --generate-ssh-keys \
+  --subnet $SUBNET_ID \
+  --query publicIpAddress \
+  -o tsv)
+```
+Using the stored IP address, SSH into the newly created VM.
+```Bash
+ssh $VM2_IP_ADDR
+```
+Go ahead and log out from the VM.
 
 
+# Cleanup
+Now that the tutorial is complete, it's time to clean up the created resources. You can delete individual resources with the delete command, but the safest way to remove all resources in a resource group is with group delete.
+```AzureCLI
+az group delete --name TutorialResources --no-wait
+```
+This command deletes the resources created during the tutorial, and is guaranteed to deallocate them in the correct order. The ``--no-wait`` parameter keeps the CLI from blocking while the deletion takes place. If you want to wait until the deletion is complete or watch it progress, use the group wait command.
+```Bash
+az group wait --name TutorialResources --deleted
+```
+
+With cleanup completed, the tutorial is finished. Continue on for a summary of everything you learned and links to resources that will help you with your next steps.
+
+# Summary
 
 
-## 
+Summary
 
+Congratulations! You learned how to create VMs with new or existing resources, used the --query and --output arguments to capture data to be stored in shell variables, and looked at some of the resources that get created for Azure VMs.
 
+Where you go from here depends on what you plan to use the CLI for. There are a variety of materials that go further in depth on the features covered in this tutorial.
+Samples
+
+If you want to get started right away with specific tasks, look at some sample scripts.
+
+* Working with Linux VMs <https://docs.microsoft.com/en-us/azure/virtual-machines/linux/cli-samples?toc=%2fcli%2fazure%2ftoc.json> and Windows VMs <https://docs.microsoft.com/en-us/azure/virtual-machines/windows/cli-samples?toc=%2fcli%2fazure%2ftoc.json>
+* Working with webapps<https://docs.microsoft.com/en-us/azure/app-service/app-service-cli-samples?toc=%2Fcli%2Fazure%2Ftoc.json> and Azure Functions <https://docs.microsoft.com/en-us/azure/azure-functions/functions-cli-samples?toc=%2fcli%2fazure%2ftoc.json>
+* Working with databases - Azure SQL databases <https://docs.microsoft.com/en-us/azure/sql-database/sql-database-cli-samples?toc=%2fcli%2fazure%2ftoc.json>, PostgreSQL<https://docs.microsoft.com/en-us/azure/postgresql/sample-scripts-azure-cli?toc=%2fcli%2fazure%2ftoc.json>, MySQL<https://docs.microsoft.com/en-us/azure/mysql/sample-scripts-azure-cli?toc=%2fcli%2fazure%2ftoc.json>, and CosmosDB<https://docs.microsoft.com/en-us/azure/cosmos-db/cli-samples?toc=%2fcli%2fazure%2ftoc.json>.
+
+In-depth CLI documentation
+
+There are also topics that go deeper into the CLI features that were shown in the tutorial.
+
+* Learn more about output formats <https://docs.microsoft.com/en-us/cli/azure/format-output-azure-cli?view=azure-cli-latest>
+* Learn more about output queries <https://docs.microsoft.com/en-us/cli/azure/query-azure-cli?view=azure-cli-latest>
+* Learn more about authorization in Azure <https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli?view=azure-cli-latest>
+
+Other useful documentation
+
+You might want to take time to explore more advanced features of the CLI, like configuring defaults<https://docs.microsoft.com/en-us/cli/azure/azure-cli-configuration?view=azure-cli-latest> or extensions <https://docs.microsoft.com/en-us/cli/azure/azure-cli-extensions-overview?view=azure-cli-latest>.
+Feedback
+
+If you'd like to give feedback, suggestions, or ask questions about the CLI, there are a number of ways for you to get in touch.
+
+* az feedback is a built-in command for the CLI that allows providing free-form feedback to the team.
+* File a feature request or a bug report with the CLI in the Azure CLI repository<https://github.com/Azure/azure-cli>.
+* Ask a question or get clarification by filing an issue in the Azure CLI documentation repository<https://github.com/MicrosoftDocs/azure-docs-cli/issues>.
+
+We hope that you enjoy using the Azure CLI!
+
+https://github.com/Azure/azure-cli
