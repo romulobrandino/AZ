@@ -90,6 +90,10 @@ This example also demonstrates the use of short arguments. You may use ``-g`` in
 ## Set environment variables from CLI output
 
 Now that you have the NIC ID, run az network nic show to get its information. Note that you don't need a resource group here, since the resource group name is contained within the Azure resource ID.
+```Bash
+az network nic show --ids $NIC_ID
+```
+
 
 
 
