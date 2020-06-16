@@ -24,7 +24,7 @@ az vm create --subscription "My Demos" --resource-group v-romubr --name NewVM --
 2. Windows Server 2016
 ```Bash
 az vm create \
-    --resource-group myResourceGroup \
+    --resource-group v-romubr \
     --name myVM \
     --image win2016datacenter \
     --admin-username azureuser
