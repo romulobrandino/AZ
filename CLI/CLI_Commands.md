@@ -4,6 +4,7 @@ List account --output could be in Json, Yaml, table...
 
 ```Bash
 az account list --output table
+az account list --output yaml
 ```
 
 Change the default account
