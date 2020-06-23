@@ -1,4 +1,4 @@
-# Azure cli commands
+# Azure CLI commands
 
 List account --output could be in Json, Yaml, table...
 
@@ -44,5 +44,13 @@ Get-AzSubscription
 ```PowerShell
 Select-AzSubscription -Subscription "Visual Studio Enterprise"
 ```
-Get-AzResourceGroup
+## Get-AzResourceGroup
 
+You can retrieve a list of all Resource Groups in the active subscription:
+```PowerShell
+Get-AzResourceGroup
+```
+To get a more concise view, you can send the output from the Get-AzResourceGroup to the Format-Table cmdlet using a pipe '|'.
+```PowerShell
+Get-AzResourceGroup | Format-Table
+```
