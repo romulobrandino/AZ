@@ -16,19 +16,6 @@ Example:
 ```Bash
 az account set --subscription "My Demos"
 ```
-# Change Account in PowerShell
-
-1. Get a list of all subscription names in your account with the command:
-```PowerShell
-Get-AzSubscription
-```
-
-2. Change the subscription by passing the name of the one to select.
-```PowerShell
-Select-AzSubscription -Subscription "Visual Studio Enterprise"
-```
-
-
 **Create VM**
 1. Linux Ubuntu
 ```Bash
@@ -44,3 +31,18 @@ az vm create \
 ```
 
 [Reference](https://docs.microsoft.com/en-us/cli/azure/manage-azure-subscriptions-azure-cli?view=azure-cli-latest)
+
+
+# Change Account in PowerShell
+
+1. Get a list of all subscription names in your account with the command:
+```PowerShell
+Get-AzSubscription
+```
+
+2. Change the subscription by passing the name of the one to select.
+```PowerShell
+Select-AzSubscription -Subscription "Visual Studio Enterprise"
+```
+Get-AzResourceGroup
+
