@@ -3,7 +3,9 @@
 ## Test-Connection
 Sends ICMP echo request packets, or pings, to one or more computers. 
 ```PowerShell
-Test-Connection
+$ Test-Connection -TargetName google.com -Traceroute -IPv4
+
+$ Test-Connection
     [-TargetName] <string[]>
     [-Ping]
     [-IPv4]
