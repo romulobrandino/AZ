@@ -1,4 +1,28 @@
-PowerShell Commands
+# PowerShell Commands
+
+## Test-Connection
+Sends ICMP echo request packets, or pings, to one or more computers. 
+```PowerShell
+$ Test-Connection -TargetName google.com -Traceroute -IPv4
+
+$ Test-Connection
+    [-TargetName] <string[]>
+    [-Ping]
+    [-IPv4]
+    [-IPv6]
+    [-ResolveDestination]
+    [-Source <string>]
+    [-MaxHops <int>]
+    [-Count <int>]
+    [-Delay <int>]
+    [-BufferSize <int>]
+    [-DontFragment]
+    [-TimeoutSeconds <int>]
+    [-Quiet]
+    [<CommonParameters>]
+```
+
+https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/test-connection?view=powershell-7
 
 Test-NetConnection
 ```PowerShell
