@@ -2,8 +2,8 @@
 
 
 ## Networking General
-[Product Networking in General](https://azure.microsoft.com/en-us/product-categories/networking/)
-[Azure Networking Documentation](https://docs.microsoft.com/en-us/azure/networking/)
+* [Product Networking in General](https://azure.microsoft.com/en-us/product-categories/networking/)
+* [Azure Networking Documentation](https://docs.microsoft.com/en-us/azure/networking/)
 
 ## VNET - Virtual Network documentation
 [VNET Documentation](https://docs.microsoft.com/en-us/azure/virtual-network/)
