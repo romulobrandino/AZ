@@ -3,26 +3,21 @@
 
 ## Networking General
 [Product Networking in General](https://azure.microsoft.com/en-us/product-categories/networking/)
-
-## Networking documentation
 [Azure Networking Documentation](https://docs.microsoft.com/en-us/azure/networking/)
 
-## Virtual Network documentation
+## VNET - Virtual Network documentation
 [VNET Documentation](https://docs.microsoft.com/en-us/azure/virtual-network/)
 
 
-## Product Load Balancer
-https://azure.microsoft.com/en-us/services/load-balancer/
-
-## Load Balancer documentation
-https://docs.microsoft.com/en-us/azure/load-balancer/
+## Load Balancer
+[Load Balancer Product Page](https://azure.microsoft.com/en-us/services/load-balancer/)
+[Load Balancer Documentation](https://docs.microsoft.com/en-us/azure/load-balancer/)
 
 
-## Product Virtual Private Network (VPN) gateway
-https://azure.microsoft.com/en-us/services/vpn-gateway/
 
-## VPN Gateway documentation
-https://docs.microsoft.com/en-us/azure/vpn-gateway/
+## Virtual Private Network (VPN) gateway
+[VPN GW Product Page](https://azure.microsoft.com/en-us/services/vpn-gateway/)
+[VPN PGW Documentation](https://docs.microsoft.com/en-us/azure/vpn-gateway/)
 
 
 ## Product Application Gateway
