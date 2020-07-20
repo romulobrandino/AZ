@@ -1,24 +1,24 @@
 # Azure Networking Product and Documentation links
 
 
-## Networking General
+## Azure Networking
 * [Product Networking in General](https://azure.microsoft.com/en-us/product-categories/networking/)
 * [Azure Networking Documentation](https://docs.microsoft.com/en-us/azure/networking/)
 
 ## VNET - Virtual Network documentation
 * [VNET Documentation](https://docs.microsoft.com/en-us/azure/virtual-network/)
 
-
 ## Load Balancer
 * [Load Balancer Product Page](https://azure.microsoft.com/en-us/services/load-balancer/)
 * [Load Balancer Documentation](https://docs.microsoft.com/en-us/azure/load-balancer/)
-
-
 
 ## Virtual Private Network (VPN) gateway
 * [VPN GW Product Page](https://azure.microsoft.com/en-us/services/vpn-gateway/)
 * [VPN PGW Documentation](https://docs.microsoft.com/en-us/azure/vpn-gateway/)
 
+## Azure ExpressRoute
+* [Azure ExpressRoute Product Page](https://azure.microsoft.com/en-us/services/expressroute/)
+* [ExpressRoute documentation](https://docs.microsoft.com/en-us/azure/expressroute/)
 
 ## Application Gateway
 * [Application Gateway Product Page](https://azure.microsoft.com/en-us/services/application-gateway/)
