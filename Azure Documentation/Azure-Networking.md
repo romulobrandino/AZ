@@ -14,7 +14,7 @@
 
 ## Virtual Private Network (VPN) gateway
 * [VPN GW Product Page](https://azure.microsoft.com/en-us/services/vpn-gateway/)
-* [VPN PGW Documentation](https://docs.microsoft.com/en-us/azure/vpn-gateway/)
+* [VPN GW Documentation](https://docs.microsoft.com/en-us/azure/vpn-gateway/)
 
 ## Azure ExpressRoute
 * [Azure ExpressRoute Product Page](https://azure.microsoft.com/en-us/services/expressroute/)
