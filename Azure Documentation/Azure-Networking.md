@@ -26,6 +26,8 @@ A VPN gateway is a specific type of virtual network gateway that is used to send
 * [Azure ExpressRoute Product Page](https://azure.microsoft.com/en-us/services/expressroute/)
 * [ExpressRoute documentation](https://docs.microsoft.com/en-us/azure/expressroute/)
 
+Microsoft Azure ExpressRoute enables organizations to extend their on-premises networks into the Microsoft Cloud over a private connection implemented by a connectivity provider. This arrangement means that the connectivity to the Azure datacenters doesn't go over the Internet but across a dedicated link. ExpressRoute also facilitates efficient connections with other Microsoft cloud-based services, such as Office 365 and Dynamics 365.
+
 ## Application Gateway
 * [Application Gateway Product Page](https://azure.microsoft.com/en-us/services/application-gateway/)
 * [Application Gateway documentation](https://docs.microsoft.com/en-us/azure/application-gateway/)
