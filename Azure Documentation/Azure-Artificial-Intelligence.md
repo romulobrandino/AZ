@@ -13,7 +13,15 @@ Some of the most common Artificial Intelligence and Machine Learning service typ
 
 Cognitive services are a collection of domain-specific pre-trained AI models that can be customized with your data. They are categorized broadly into vision, speech, language, and search. For more information about each service, see the links in the resources section.
 * **Vision**: Vision makes it possible for apps and services to accurately identify and analyze content within images and videos.
-**Speech**: Vision makes it possible for apps and services to accurately identify and analyze content within images and videos.
+* **Speech**: Speech services can convert spoken language into text, or produce natural-sounding speech from text using standard (or customizable) voice fonts.
+* **Language**: Language services can understand the meaning of unstructured text or recognize the speaker’s intent.
+* **Knowledge**: Knowledge services create rich knowledge resources that integrate into apps and services.
+* **Search**: Enable apps and services to harness the power of a web-scale, ad-free search engine. Use search services to find information across billions of web pages, images, videos, and news search results.
 
+## Azure Machine Learning Service
+* [Azure Machine Learning Product Page](https://azure.microsoft.com/en-us/services/machine-learning/)
+* [Azure Machine Learning documentation](https://docs.microsoft.com/en-us/azure/machine-learning/)
 
+The Azure Machine Learning service  provides a cloud-based environment you can use to develop, train, test, deploy, manage, and track machine learning models. It fully supports open-source technologies, so you can use tens of thousands of open-source Python packages with machine learning components such as TensorFlow and scikit-learn. Rich tools, such as Jupyter notebooks or the Visual Studio Code Tools for AI, make it easy to interactively explore data, transform it, and then develop, and test models. Azure Machine Learning service also includes features that automate model generation and tuning to help you create models with ease, efficiency, and accuracy.
 
+The Azure Machine Learning service can auto-generate a model and auto-tune it for you. It will let you start training on your local machine, and then scale out to the cloud. When you have the right model, you can easily deploy it in a container such as Docker in Azure. Use Machine Learning service if you work in a Python environment, you want more control over your machine learning algorithms, or you want to use open-source machine learning libraries.
