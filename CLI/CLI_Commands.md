@@ -54,3 +54,8 @@ To get a more concise view, you can send the output from the Get-AzResourceGroup
 ```PowerShell
 Get-AzResourceGroup | Format-Table
 ```
+## Install IIS with PowerShell
+
+```PowerShell
+Install-WindowsFeature -name <Web-Server> -IncludeManagementTools
+```
