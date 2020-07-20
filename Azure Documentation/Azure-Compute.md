@@ -13,7 +13,7 @@ Azure virtual machines let you create and use virtual machines in the cloud. It 
 
 Virtual machine scale sets are an Azure compute resource that you can use to deploy and manage a set of identical VMs. With all VMs configured the same, virtual machine scale sets are designed to support true autoscale; no pre-provisioning of VMs is required; and as such makes it easier to build large-scale services targeting big compute, big data, and containerized workloads. So, as demand goes up more virtual machine instances can be added, and as demand goes down virtual machines instances can be removed. The process can be manual, automated, or a combination of both.
 
-## App services
+## App service
 * [App Service Product Page](https://azure.microsoft.com/en-us/services/app-service/)
 * [App Service Documentation](https://docs.microsoft.com/en-us/azure/app-service/)
 
