@@ -2,7 +2,7 @@
 
 ## Azure Cosmos DB
 * [Azure Cosmos DB Product Page](https://azure.microsoft.com/services/cosmos-db)
-* []()
+* [Azure Cosmos DB documentation](https://docs.microsoft.com/en-us/azure/cosmos-db/)
 
 Microsoft Azure Cosmos DB is a globally distributed database service that enables you to elastically and independently scale throughput and storage across any number of Azure's geographic regions. It supports schema-less data that lets you build highly responsive and Always On applications to support constantly changing data. You can use Cosmos DB to store data that is updated and maintained by users around the world. It makes it easy to build scalable, highly responsive applications at global scale.
 
