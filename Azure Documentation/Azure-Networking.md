@@ -16,8 +16,12 @@ Azure Virtual Network enables many types of Azure resources such as Azure VMs to
 
 ## Virtual Private Network (VPN) gateway
 * [VPN GW Product Page](https://azure.microsoft.com/en-us/services/vpn-gateway/)
-* [VPN PGW Documentation](https://docs.microsoft.com/en-us/azure/vpn-gateway/)
+<<<<<<< HEAD
+* [VPN GW Documentation](https://docs.microsoft.com/en-us/azure/vpn-gateway/)
 A VPN gateway is a specific type of virtual network gateway that is used to send encrypted traffic between an Azure Virtual Network and an on-premises location over the public internet. It provides a more secure connection from on-premises to Azure over the internet.
+=======
+* [VPN GW Documentation](https://docs.microsoft.com/en-us/azure/vpn-gateway/)
+>>>>>>> ea5a349fe9c60c6f3656ee21a5c8fcc9d78d6590
 
 ## Azure ExpressRoute
 * [Azure ExpressRoute Product Page](https://azure.microsoft.com/en-us/services/expressroute/)
