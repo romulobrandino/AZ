@@ -1,4 +1,4 @@
-# Azure Azure Compute services Product and Documentation links
+# Azure Compute Services - Product and Documentation links
 
 
 ## Virtual Machines
@@ -25,4 +25,16 @@ With App services , you can quickly build, deploy, and scale enterprise-grade we
 
 Azure Functions are ideal when you're concerned only about the code running your service and not the underlying platform or infrastructure. They're commonly used when you need to perform work in response to an event (often via a REST request), timer, or message from another Azure service, and when that work can be completed quickly, within 
 
+
+## Azure Container Instances
+* [Container Instances Product Page](https://azure.microsoft.com/en-us/services/container-instances/)
+* [Azure Container Instances Documentation](https://docs.microsoft.com/en-us/azure/container-instances/)
+
+Azure Container Instances offers the fastest and simplest way to run a container in Azure without having to manage any virtual machines or adopt any additional services. It is a PaaS offering that allows you to upload your containers, which it will run for you.
+
+## Azure Kubernetes Service
+* [Azure Container Instances Product Page](https://azure.microsoft.com/en-us/services/kubernetes-service/)
+* [Azure Container Instances documentation](https://docs.microsoft.com/en-us/azure/aks/)
+
+The task of automating, managing, and interacting with a large number of containers is known as orchestration. Azure Kubernetes Service (AKS) is a complete orchestration service for containers with distributed architectures and large volumes of containers. Orchestration is the task of automating and managing a large number of containers and how they interact.
 
