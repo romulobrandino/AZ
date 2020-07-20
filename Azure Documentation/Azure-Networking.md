@@ -2,7 +2,7 @@
 
 
 ## Azure Networking
-* [Product Networking in General](https://azure.microsoft.com/en-us/product-categories/networking/)
+* [Azure Networking Product Page(https://azure.microsoft.com/en-us/product-categories/networking/)
 * [Azure Networking Documentation](https://docs.microsoft.com/en-us/azure/networking/)
 
 ## VNET - Virtual Network documentation
