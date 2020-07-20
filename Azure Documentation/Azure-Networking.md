@@ -1,14 +1,14 @@
-# Azure Networking Documentation
+# Azure Networking Product and Documentation links
 
 
-## Product Networking
-https://azure.microsoft.com/en-us/product-categories/networking/
+## Networking General
+[Product Networking in General](https://azure.microsoft.com/en-us/product-categories/networking/)
 
 ## Networking documentation
-https://docs.microsoft.com/en-us/azure/networking/
+[Azure Networking Documentation](https://docs.microsoft.com/en-us/azure/networking/)
 
 ## Virtual Network documentation
-https://docs.microsoft.com/en-us/azure/virtual-network/
+[VNET Documentation](https://docs.microsoft.com/en-us/azure/virtual-network/)
 
 
 ## Product Load Balancer
