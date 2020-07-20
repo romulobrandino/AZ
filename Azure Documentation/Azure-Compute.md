@@ -27,7 +27,7 @@ Azure Functions are ideal when you're concerned only about the code running your
 
 
 ## Azure Container Instances
-* [Container Instances Product Page](https://azure.microsoft.com/en-us/services/container-instances/)
+* [Azure Container Instances Product Page](https://azure.microsoft.com/en-us/services/container-instances/)
 * [Azure Container Instances Documentation](https://docs.microsoft.com/en-us/azure/container-instances/)
 
 Azure Container Instances offers the fastest and simplest way to run a container in Azure without having to manage any virtual machines or adopt any additional services. It is a PaaS offering that allows you to upload your containers, which it will run for you.
