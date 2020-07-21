@@ -59,3 +59,5 @@ Get-AzResourceGroup | Format-Table
 ```PowerShell
 Install-WindowsFeature -name <Web-Server> -IncludeManagementTools
 ```
+
+http://thedevopspage.com/azurecli-powershell-cheatsheet
