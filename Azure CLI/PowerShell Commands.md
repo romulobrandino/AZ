@@ -4,6 +4,9 @@
 Sends ICMP echo request packets, or pings, to one or more computers. 
 ```PowerShell
 $ Test-Connection -TargetName google.com -Traceroute -IPv4
+Test-NetConnection -ComputerName 192.168.2.4 -Port 3389
+Test-NetConnection -ComputerName google.com
+Test-NetConnection -ComputerName bbc.com
 
 $ Test-Connection
     [-TargetName] <string[]>
