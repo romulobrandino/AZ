@@ -78,6 +78,10 @@ Add the HTTP request source and destination as fields to the trace output. The r
 * If there are no incoming packets to Load Balancer, it's likely there's a network security issue or a user-defined routing issue.
 * If no outgoing packets are returned to the client, there's probably an application configuration issue or a user-defined routing issue.
 
+## Netsh Command Syntax, Contexts, and Formatting
+
+https://docs.microsoft.com/en-us/windows-server/networking/technologies/netsh/netsh-contexts
+
 https://docs.microsoft.com/en-us/learn/modules/troubleshoot-inbound-connectivity-azure-load-balancer/3-diagnose-issues-by-reviewing-configurations-and-metrics
 
 ## PSPING
