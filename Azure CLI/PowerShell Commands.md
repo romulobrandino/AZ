@@ -41,6 +41,28 @@ $resource.Tags.Add("testkey","testvalue")
 $resource | Set-AzResource -Force
 ```
 
+## netsh
+
+The netsh utility is a general-purpose network configuration tool. Use the trace command in netsh to capture network traffic. Then analyze it by using a tool such as Microsoft Message Analyzer or Wireshark. Use netsh trace to examine the network packets sent and received by psping when you test connectivity through Load Balancer as follows:
+
+1. Start a network trace from a command prompt running as Administrator. The following example traces internet client traffic (HTTP requests) to and from the specified IP address. Replace <ip address> with the address of the Load Balancer instance. The trace data is written to a file named trace.etl:
+    
+```PowerShell
+netsh trace start ipv4.address=<ip address> capture=yes scenario=internetclient tracefile=trace.etl
+```
+2. Run psping to test connectivity
+
+```PowerShell
+psping -n 100 -i 0 -q <ip address>:<port>
+```
+
+3. Stop tracing
+
+```PowerShell
+netsh trace stop
+```
+
+
 ## PSPING
 
 The PsPing command tests ping connectivity through an endpoint. This command also measures the latency and bandwidth availability to a service. To verify that a route is available from your client to a VM through Load Balancer, use the following command. Replace <ip address> and <port> with the IP address and front-end port of the Load Balancer instance.
