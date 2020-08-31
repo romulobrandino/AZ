@@ -61,7 +61,24 @@ psping -n 100 -i 0 -q <ip address>:<port>
 ```PowerShell
 netsh trace stop
 ```
+This command takes a few minutes to complete, because it correlates and merges information while it creates the trace output file.
 
+4. Start Microsoft Message Analyzer, and open the trace file.
+
+5. Add the following filter to the trace. Replace <nn> with the Load Balancer front-end port number.
+
+```PowerShell
+TCP.Port==80 or TCP.Port==<nn>
+```
+
+Add the HTTP request source and destination as fields to the trace output. The result should look similar to the following image. In this example, 192.168.1.3 is the address of the PC running the psping command, and 51.105.19.142 is the front-end IP address of Load Balancer:
+
+7. Examine the trace messages:
+
+* If there are no incoming packets to Load Balancer, it's likely there's a network security issue or a user-defined routing issue.
+* If no outgoing packets are returned to the client, there's probably an application configuration issue or a user-defined routing issue.
+
+https://docs.microsoft.com/en-us/learn/modules/troubleshoot-inbound-connectivity-azure-load-balancer/3-diagnose-issues-by-reviewing-configurations-and-metrics
 
 ## PSPING
 
