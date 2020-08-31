@@ -54,6 +54,40 @@ Flag	Description
 -q	Suppresses output during the pings. Only a summary is shown at the end.
 -h	Prints a histogram that shows the latency of the requests.
 
+Typical output looks like this:
+
+```bash
+TCP connect to nn.nn.nn.nn:nn:
+101 iterations (warmup 1) ping test: 100%
+
+TCP connect statistics for nn.nn.nn.nn:nn:
+  Sent = 100, Received = 100, Lost = 0 (0% loss),
+  Minimum = 7.48ms, Maximum = 9.08ms, Average = 8.30ms
+
+Latency Count
+7.48    3
+7.56    2
+7.65    2
+7.73    2
+7.82    7
+7.90    4
+7.98    4
+8.07    6
+8.15    9
+8.24    9
+8.32    11
+8.40    7
+8.49    11
+8.57    12
+8.66    3
+8.74    2
+8.82    2
+8.91    1
+8.99    2
+9.08    1
+```
+
+
 
 
 
