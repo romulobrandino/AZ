@@ -94,9 +94,9 @@ The tcping utility is similar to ping except that it operates over a TCP connect
 tcping <ip address> <port>
 ```
 
-```
 Typical output looks like this:
 
+```text
 Probing nn.nn.nn.nn:nn/tcp - Port is open - time=9.042ms
 Probing nn.nn.nn.nn:nn/tcp - Port is open - time=9.810ms
 Probing nn.nn.nn.nn:nn/tcp - Port is open - time=9.266ms
