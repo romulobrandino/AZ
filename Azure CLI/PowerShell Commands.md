@@ -86,11 +86,28 @@ Latency Count
 8.99    2
 9.08    1
 ```
+## TCPING
 
+The tcping utility is similar to ping except that it operates over a TCP connection instead of ICMP, which Load Balancer doesn't route. Use tcping as follows:
 
+```CMD
+tcping <ip address> <port>
+```
 
+```
+Typical output looks like this:
 
+Probing nn.nn.nn.nn:nn/tcp - Port is open - time=9.042ms
+Probing nn.nn.nn.nn:nn/tcp - Port is open - time=9.810ms
+Probing nn.nn.nn.nn:nn/tcp - Port is open - time=9.266ms
+Probing nn.nn.nn.nn:nn/tcp - Port is open - time=9.181ms
 
+Ping statistics for nn.nn.nn.nn:nn
+     4 probes sent.
+     4 successful, 0 failed.  (0.00% fail)
+Approximate trip times in milli-seconds:
+     Minimum = 9.042ms, Maximum = 9.810ms, Average = 9.325ms
+```
 
 https://docs.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection?view=win10-ps
 
