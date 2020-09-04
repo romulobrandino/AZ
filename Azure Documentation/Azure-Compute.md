@@ -1,13 +1,13 @@
 # Azure Compute Services - Product and Documentation links
 
 
-## Virtual Machines
+## Virtual Machines (VMs)
 * [Virtual Machines Product Page](https://azure.microsoft.com/en-us/services/virtual-machines/)
 * [Virtual Machines Documentation](https://docs.microsoft.com/en-us/azure/virtual-machines/)
 
 Azure virtual machines let you create and use virtual machines in the cloud. It provides IaaS and can be used in a variety of different ways. When you need total control over an operating system and environment, Azure VMs are an ideal choice. Just like a physical computer, you're able to customize all the software running on the VM. This ability is helpful when you are running custom software or custom hosting configurations.
 
-## Virtual Machine Scale Sets
+## Virtual Machine Scale Sets 
 * [Virtual Machine Scale Sets Product Page](https://azure.microsoft.com/en-us/services/virtual-machine-scale-sets/)
 * [Virtual Machine Scale Sets Documentation](https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/)
 
@@ -32,7 +32,7 @@ Azure Functions are ideal when you're concerned only about the code running your
 
 Azure Container Instances offers the fastest and simplest way to run a container in Azure without having to manage any virtual machines or adopt any additional services. It is a PaaS offering that allows you to upload your containers, which it will run for you.
 
-## Azure Kubernetes Service
+## Azure Kubernetes Service (AKS)
 * [Azure Container Instances Product Page](https://azure.microsoft.com/en-us/services/kubernetes-service/)
 * [Azure Container Instances documentation](https://docs.microsoft.com/en-us/azure/aks/)
 
