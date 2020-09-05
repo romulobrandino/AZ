@@ -56,6 +56,65 @@ foreach ($email in $invitations)
 ```
 You create the comma-separated values (CSV) file with the list of all the users you want to add. An invitation is sent to each user in that CSV file.
 
+# New-AzureADUser
+
+Creates an AD user.
+
+```PowerShell
+New-AzureADUser
+   [-ExtensionProperty <System.Collections.Generic.Dictionary`2[System.String,System.String]>]
+   -AccountEnabled <Boolean>
+   [-City <String>]
+   [-Country <String>]
+   [-CreationType <String>]
+   [-Department <String>]
+   -DisplayName <String>
+   [-FacsimileTelephoneNumber <String>]
+   [-GivenName <String>]
+   [-IsCompromised <Boolean>]
+   [-ImmutableId <String>]
+   [-JobTitle <String>]
+   [-MailNickName <String>]
+   [-Mobile <String>]
+   [-OtherMails <System.Collections.Generic.List`1[System.String]>]
+   [-PasswordPolicies <String>]
+   -PasswordProfile <PasswordProfile>
+   [-PhysicalDeliveryOfficeName <String>]
+   [-PostalCode <String>]
+   [-PreferredLanguage <String>]
+   [-ShowInAddressList <Boolean>]
+   [-SignInNames <System.Collections.Generic.List`1[Microsoft.Open.AzureAD.Model.SignInName]>]
+   [-State <String>]
+   [-StreetAddress <String>]
+   [-Surname <String>]
+   [-TelephoneNumber <String>]
+   [-UsageLocation <String>]
+   [-UserPrincipalName <String>]
+   [-UserType <String>]
+   [<CommonParameters>]
+```
+
+Example 1: Create a user
+
+```PowerShell
+$PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
+
+$PasswordProfile.Password = "Password"
+
+New-AzureADUser -DisplayName "New User" -PasswordProfile $PasswordProfile -UserPrincipalName "NewUser@contoso.com" -AccountEnabled $true -MailNickName "Newuser"
+
+ObjectId                             DisplayName UserPrincipalName               UserType
+--------                             ----------- -----------------               --------
+5e8b0f4d-2cd4-4e17-9467-b0f6a5c0c4d0 New user    NewUser@contoso.com             Member
+```
+
+
+
+
+
+
+
+
 ## Delete user accounts
 
 You can also delete user accounts through the Azure portal, Azure PowerShell, or the Azure CLI. In PowerShell, use the cmdlet ```Remove-AzureADUser```. In the Azure CLI, use the cmdlet ```az ad user delete```.
