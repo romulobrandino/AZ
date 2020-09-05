@@ -2,13 +2,13 @@
 
 Add individual user account through the Azure CLI.
 ```bash
-# create a new user CLI
+# create a new user using Azure CLI
 az ad user create
 ```
 
 Add individual user account through the Azure PowerShell.
 ```PowerShell
-# create a new user PowerShell
+# create a new user using Azure PowerShell
 New-AzureADUser
 ```
 
