@@ -35,6 +35,14 @@ To create the user, call the New-AzureADUser cmdlet with the parameter values:
 ```powershell 
 New-AzureADUser -AccountEnabled $True -DisplayName "Abby Brown" -PasswordProfile $PasswordProfile -MailNickName "AbbyB" -UserPrincipalName "AbbyB@contoso.com"
 ```
+PowerShell will return the new user object you just created and show the ObjectId:
+
+```PowerShell
+ObjectId                             DisplayName UserPrincipalName                 UserType
+--------                             ----------- -----------------                 --------
+f36634c8-8a93-4909-9248-0845548bc515 New User    NewUser32@drumkit.onmicrosoft.com Member
+```
+
 
 You can bulk create member users and guests accounts. The following example shows how to bulk invite guest users.
 
