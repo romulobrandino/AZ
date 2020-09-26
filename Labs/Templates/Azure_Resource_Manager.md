@@ -188,7 +188,7 @@ No matter your approach, writing a template involves working with a text editor.
 
 As you explore and write your templates, you'll want to [refer to the documentation](https://docs.microsoft.com/en-us/azure/templates) to understand what resource types are available and how to use them.
 
-Check your knowledge
+### **Check your knowledge**
 1. *Declarative automation* means that: 
 
 **You define *what* resources you need but not *how* to create them.**
