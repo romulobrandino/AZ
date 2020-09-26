@@ -184,14 +184,16 @@ Here are a few ways you can get a starter template:
 * Start with a template you or your team built that serves a similar purpose.
 * Start with an Azure Quickstart template. You'll see how in the next part.
 
-No matter your approach, writing a template involves working with a text editor. You can bring your favorite editor, but Visual Studio Code's Azure Resource Manager Tools extension is specially designed for the task of creating templates. This extension makes it easier to navigate your template code and provides autocompletion for many common tasks.
+No matter your approach, writing a template involves working with a text editor. You can bring your favorite editor, but Visual Studio Code's [Azure Resource Manager Tools extension](https://marketplace.visualstudio.com/items?itemName=msazurermtools.azurerm-vscode-tools) is specially designed for the task of creating templates. This extension makes it easier to navigate your template code and provides autocompletion for many common tasks.
 
-As you explore and write your templates, you'll want to refer to the documentation to understand what resource types are available and how to use them.
+As you explore and write your templates, you'll want to [refer to the documentation](https://docs.microsoft.com/en-us/azure/templates) to understand what resource types are available and how to use them.
 
+Check your knowledge
+1. *Declarative automation* means that: 
 
+**You define *what* resources you need but not *how* to create them.**
 
-
-
+In the case of Resource Manager templates, Resource Manager takes care of these details for you.
 
 
 
