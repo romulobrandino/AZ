@@ -66,7 +66,126 @@ A Resource Manager template can contain the following sections. These sections a
 }
 ```
 
+### **Parameters**
 
+This is where you specify which values are configurable when the template runs. For example, you might allow users of your template to specify a username, password, or domain name.
+
+Here's an example that illustrates two parameters – one for a VM's username and one for its password.
+
+```json
+"parameters": {
+  "adminUsername": {
+    "type": "string",
+    "metadata": {
+      "description": "Username for the Virtual Machine."
+    }
+  },
+  "adminPassword": {
+    "type": "securestring",
+    "metadata": {
+      "description": "Password for the Virtual Machine."
+    }
+  }
+}
+```
+
+### **Variables**
+
+This is where you define values that are used throughout the template. Variables can help make your templates easier to maintain. For example, you might define a storage account name one time as a variable and use that variable throughout the template. If the storage account name changes, you need to only update the variable.
+
+Here's an example that illustrates a few variables that describe networking features for a VM.
+
+```json
+"variables": {
+  "nicName": "myVMNic",
+  "addressPrefix": "10.0.0.0/16",
+  "subnetName": "Subnet",
+  "subnetPrefix": "10.0.0.0/24",
+  "publicIPAddressName": "myPublicIP",
+  "virtualNetworkName": "MyVNET"
+}
+```
+
+## **Functions**
+
+This is where you define procedures that you don't want to repeat throughout the template. Like variables, functions can help make your templates easier to maintain. Here's an example that creates a function to create a unique name that could be used when creating resources that have globally unique naming requirements.
+
+```json
+"functions": [
+  {
+    "namespace": "contoso",
+    "members": {
+      "uniqueName": {
+        "parameters": [
+          {
+            "name": "namePrefix",
+            "type": "string"
+          }
+        ],
+        "output": {
+          "type": "string",
+          "value": "[concat(toLower(parameters('namePrefix')), uniqueString(resourceGroup().id))]"
+        }
+      }
+    }
+  }
+],
+```
+
+## **Resources**
+
+This section is where you define the Azure resources that make up your deployment.
+
+Here's an example that creates a public IP address resource.
+
+```json
+"resources": [
+{
+  "type": "Microsoft.Network/publicIPAddresses",
+  "name": "[variables('publicIPAddressName')]",
+  "location": "[parameters('location')]",
+  "apiVersion": "2018-08-01",
+  "properties": {
+    "publicIPAllocationMethod": "Dynamic",
+    "dnsSettings": {
+      "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+    }
+  }
+}
+],
+```
+
+Here, the type of resource is ```Microsoft.Network/publicIPAddresses```. Its name is read from the variables section and its location, or Azure region, is read from the parameters section.
+
+Because resource types can change over time, apiVersion refers to the version of the resource type you want to use. As resource types evolve and change, you can modify your templates to work with the latest features when you're ready.
+Outputs
+
+This is where you define any information you'd like to receive when the template runs. For example, you might want to receive your VM's IP address or FQDN – information you do not know until the deployment runs.
+
+Here's an example that illustrates an output named "hostname". The FQDN value is read from the VM's public IP address settings.
+
+```json
+"outputs": {
+  "hostname": {
+    "type": "string",
+    "value": "[reference(variables('publicIPAddressName')).dnsSettings.fqdn]"
+  }
+}
+```
+
+### **How do I write a Resource Manager template?**
+
+There are many approaches to writing Resource Manager templates. Although you can write a template from scratch, it's common to start with an existing template and modify it to suit your needs.
+
+Here are a few ways you can get a starter template:
+
+* Use the Azure portal to create a template based on the resources in an existing resource group.
+* Start with a template you or your team built that serves a similar purpose.
+* Start with an Azure Quickstart template. You'll see how in the next part.
+
+No matter your approach, writing a template involves working with a text editor. You can bring your favorite editor, but Visual Studio Code's Azure Resource Manager Tools extension is specially designed for the task of creating templates. This extension makes it easier to navigate your template code and provides autocompletion for many common tasks.
+
+As you explore and write your templates, you'll want to refer to the documentation to understand what resource types are available and how to use them.
 
 
 
