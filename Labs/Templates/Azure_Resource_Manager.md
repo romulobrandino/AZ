@@ -158,7 +158,8 @@ Here's an example that creates a public IP address resource.
 Here, the type of resource is ```Microsoft.Network/publicIPAddresses```. Its name is read from the variables section and its location, or Azure region, is read from the parameters section.
 
 Because resource types can change over time, apiVersion refers to the version of the resource type you want to use. As resource types evolve and change, you can modify your templates to work with the latest features when you're ready.
-Outputs
+
+### **Outputs**
 
 This is where you define any information you'd like to receive when the template runs. For example, you might want to receive your VM's IP address or FQDN – information you do not know until the deployment runs.
 
