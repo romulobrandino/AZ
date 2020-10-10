@@ -1,7 +1,8 @@
 # Create a vnet
 # az network vnet create
 
-az network vnet create -g v-romubr -n BrazilVnet --address-prefix 172.20.0.0/16 --location brazilsouth --subnet-name GatewaySubnet --subnet-prefix 172.20.0.0/27 --subnet-name PublicSubnet --subnet-prefix 172.20.1.0/24 --subnet-name PrivateSubnet --subnet-prefix 172.20.2.0/24 --subnet-name AzureBastionSubnet --subnet-prefix 172.20.100.0/27 --tags Environment=Development
+az network vnet create -g v-romubr -n BrazilVnet --address-prefix 172.20.0.0/16 --location brazilsouth --subnet-name GatewaySubnet --subnet-prefix 172.20.0.0/27 --tags Environment=Development
+az network vnet subnet create -g v-romubr --vnet-name BrazilVnet -n PublicSubnet --address-prefixes 172.20.1.0/24 -n PrivateSubnet --address-prefixes 172.20.2.0/24 --tags Environment=Development
 
 # Examples:
 # az network vnet create -g MyResourceGroup -n MyVnet
