@@ -79,7 +79,32 @@ $LNGIP51 = "131.107.72.22"
 $LNGASN5 = 65050
 $BGPPeerIP51 = "10.52.255.253"
 
+# 2. Create the local network gateway for Site5
+New-AzResourceGroup -Name $RG5 -Location $Location5
+New-AzLocalNetworkGateway -Name $LNGName51 -ResourceGroupName $RG5 -Location $Location5 -GatewayIpAddress $LNGIP51 -AddressPrefix $LNGPrefix51 -Asn $LNGASN5 -BgpPeeringAddress $BGPPeerIP51
 
+# Step 2 - Connect the VNet gateway and local network gateway
+$vnet1gw = Get-AzVirtualNetworkGateway -Name $GWName1  -ResourceGroupName $RG1
+$lng5gw1 = Get-AzLocalNetworkGateway  -Name $LNGName51 -ResourceGroupName $RG5
 
+# 2. Create the TestVNet1 to Site5 connection
+New-AzVirtualNetworkGatewayConnection -Name $Connection151 -ResourceGroupName $RG1 -VirtualNetworkGateway1 $vnet1gw -LocalNetworkGateway2 $lng5gw1 -Location $Location1 -ConnectionType IPsec -SharedKey 'AzureA1b2C3' -EnableBGP $True
 
+# 3. VPN and BGP parameters for your on-premises VPN device
 
+# Step 3 - Connect two on-premises VPN devices to the active-active VPN gateway
+# 1. Create the second local network gateway for Site5
+$LNGName52 = "Site5_2"
+$LNGPrefix52 = "10.52.255.254/32"
+$LNGIP52 = "131.107.72.23"
+$BGPPeerIP52 = "10.52.255.254"
+
+New-AzLocalNetworkGateway -Name $LNGName52 -ResourceGroupName $RG5 -Location $Location5 -GatewayIpAddress $LNGIP52 -AddressPrefix $LNGPrefix52 -Asn $LNGASN5 -BgpPeeringAddress $BGPPeerIP52
+
+# 2. Connect the VNet gateway and the second local network gateway
+$lng5gw2 = Get-AzLocalNetworkGateway -Name $LNGName52 -ResourceGroupName $RG5
+New-AzVirtualNetworkGatewayConnection -Name $Connection152 -ResourceGroupName $RG1 -VirtualNetworkGateway1 $vnet1gw -LocalNetworkGateway2 $lng5gw2 -Location $Location1 -ConnectionType IPsec -SharedKey 'AzureA1b2C3' -EnableBGP $True
+
+# 3. VPN and BGP parameters for your second on-premises VPN device
+
+# Part 3 - Establish an active-active VNet-to-VNet connection
