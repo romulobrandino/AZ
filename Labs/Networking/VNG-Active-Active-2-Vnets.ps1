@@ -11,10 +11,10 @@ Select-AzSubscription -SubscriptionName $Sub1
 # You can use these variables if you are running through the steps to become familiar with this type of configuration. 
 # Modify the variables, and then copy and paste into your PowerShell console.
 
-$Sub1 = "Ross"
+# $Sub1 = "Ross"
 $RG1 = "v-romubr"
 $Location1 = "East US"
-$VNetName1 = "Romulo-Vnet-1"
+$VNetName1 = "Vnet1"
 $FESubName1 = "FrontEnd"
 $BESubName1 = "Backend"
 $GWSubName1 = "GatewaySubnet"
@@ -46,6 +46,15 @@ New-AzVirtualNetwork -Name $VNetName1 -ResourceGroupName $RG1 -Location $Locatio
 
 # Step 2 - Create the VPN gateway for TestVNet1 with active-active mode
 
+# 1. Create the public IP addresses and gateway IP configurations
+
+$gw1pip1 = New-AzPublicIpAddress -Name $GW1IPName1 -ResourceGroupName $RG1 -Location $Location1 -AllocationMethod Dynamic
+$gw1pip2 = New-AzPublicIpAddress -Name $GW1IPName2 -ResourceGroupName $RG1 -Location $Location1 -AllocationMethod Dynamic
+
+$vnet1 = Get-AzVirtualNetwork -Name $VNetName1 -ResourceGroupName $RG1
+$subnet1 = Get-AzVirtualNetworkSubnetConfig -Name "GatewaySubnet" -VirtualNetwork $vnet1
+$gw1ipconf1 = New-AzVirtualNetworkGatewayIpConfig -Name $GW1IPconf1 -Subnet $subnet1 -PublicIpAddress $gw1pip1
+$gw1ipconf2 = New-AzVirtualNetworkGatewayIpConfig -Name $GW1IPconf2 -Subnet $subnet1 -PublicIpAddress $gw1pip2
 
 
 
