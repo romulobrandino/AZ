@@ -13,7 +13,7 @@ Select-AzSubscription -SubscriptionName $Sub1
 
 # $Sub1 = "Ross"
 $RG1 = "v-romubr"
-$Location1 = "East US"
+$Location1 = "West US"
 $VNetName1 = "Vnet1"
 $FESubName1 = "FrontEnd"
 $BESubName1 = "Backend"
@@ -111,7 +111,7 @@ PS /home/romulo> $vnet1gw.BgpSettingsText
 # 1. Declare your variables
 
 $RG5 = "v-romubr"
-$Location5 = "East US"
+$Location5 = "West US"
 $LNGName51 = "Site5_1"
 $LNGPrefix51 = "10.52.255.253/32"
 $LNGIP51 = "131.107.72.22"
@@ -153,7 +153,7 @@ New-AzVirtualNetworkGatewayConnection -Name $Connection152 -ResourceGroupName $R
 # 1. Declare your variables
 
 $RG2 = "v-romubr"
-$Location2 = "West US"
+$Location2 = "East US"
 $VNetName2 = "TestVNet2"
 $FESubName2 = "FrontEnd"
 $BESubName2 = "Backend"

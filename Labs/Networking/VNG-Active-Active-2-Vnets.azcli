@@ -1,0 +1,116 @@
+# VNG Active active INCOMPLETE
+
+
+#Example values
+
+
+ResourceGroup           = v-romubr
+Location                = eastus 
+VnetName1               = VNet1
+AddressSpace            = 10.11.0.0/16 
+Subnet1Name             = Frontend 
+Subnet1 address-prefix  = 10.11.1.0/24 
+GatewaySubnet           = 10.11.255.0/27 
+LocalNetworkGatewayName = Site2 
+LNG Public IP           = <VPN device IP address>
+LocalAddrPrefix1        = 10.0.0.0/24
+LocalAddrPrefix2        = 20.0.0.0/24   
+GatewayName             = VNet1GW 
+PublicIP                = VNet1GWIP1 
+VPNType                 = RouteBased 
+GatewayType             = Vpn 
+ConnectionName          = VNet1toSite2
+
+# Create a virtual network
+
+# Vnet 01
+az network vnet create \
+  -n VNet1 \
+  -g v-romubr \
+  -l eastus \
+  --address-prefix 10.11.0.0/16 \
+  --subnet-name Frontend \
+  --subnet-prefix 10.11.1.0/24
+
+# Vnet create another IP Range
+az network vnet update -n VNet1 --address-prefixes 10.11.0.0/16 10.12.0.0/16 -g v-romubr
+
+# Add a Backend subnet
+az network vnet subnet create \
+  --vnet-name VNet1 \
+  -n BackEnd \
+  -g v-romubr \
+  --address-prefix 10.11.2.0/24
+
+# Add a gateway subnet
+az network vnet subnet create \
+  --vnet-name VNet1 \
+  -n GatewaySubnet \
+  -g v-romubr \
+  --address-prefix 10.11.0.0/27
+
+# Request a public IP address
+
+az network public-ip create \
+  -n VNet1GWIP1 \
+  -g v-romubr \
+  --allocation-method Dynamic
+
+# 2. Create the VPN gateway with the AS number
+az network vnet-gateway create \
+ -n VNet1 -l eastus \ 
+ --public-ip-address GWPubIP -g v-romubr --vnet TestVNet1 \ 
+ --gateway-type Vpn --sku HighPerformance --vpn-type RouteBased --asn 65010 --no-wait
+
+
+az network vnet-gateway create -n VNet1GW -l eastus --public-ip-address VNet1GWIP1 -g v-romubr --vnet TestVNet1 --gateway-type Vpn --sku HighPerformance --vpn-type RouteBased --asn 65010 --no-wait
+
+
+
+
+
+
+
+
+
+
+# Create the VPN gateway
+
+az network vnet-gateway create \
+  -n VNet1GW \
+  -l eastus \
+  --public-ip-address VNet1GW1IP \
+  -g v-romubr \
+  --vnet VNet1 \
+  --gateway-type Vpn \
+  --sku VpnGw1 \
+  --vpn-type RouteBased \
+  --no-wait
+
+# View the VPN gateway
+
+az network vnet-gateway show \
+  -n VNet1GW \
+  -g v-romubr
+
+# View the public IP address
+az network public-ip show \
+  --name VNet1GW1IP \
+  --resource-group v-romubr
+
+# Verify a VPN Gateway connection
+az network vpn-connection show --name VNet1toSite2 --resource-group v-romubr
+
+
+
+
+
+
+
+
+# Clean up resources
+az group delete --name v-romubr --yes
+
+
+
+
