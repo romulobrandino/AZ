@@ -56,5 +56,30 @@ $subnet1 = Get-AzVirtualNetworkSubnetConfig -Name "GatewaySubnet" -VirtualNetwor
 $gw1ipconf1 = New-AzVirtualNetworkGatewayIpConfig -Name $GW1IPconf1 -Subnet $subnet1 -PublicIpAddress $gw1pip1
 $gw1ipconf2 = New-AzVirtualNetworkGatewayIpConfig -Name $GW1IPconf2 -Subnet $subnet1 -PublicIpAddress $gw1pip2
 
+# 2. Create the VPN gateway with active-active configuration
+New-AzVirtualNetworkGateway -Name $GWName1 -ResourceGroupName $RG1 -Location $Location1 -IpConfigurations $gw1ipconf1,$gw1ipconf2 -GatewayType Vpn -VpnType RouteBased -GatewaySku VpnGw1 -Asn $VNet1ASN -EnableActiveActiveFeature -Debug
+
+# 3. Obtain the gateway public IP addresses and the BGP Peer IP address
+
+$gw1pip1 = Get-AzPublicIpAddress -Name $GW1IPName1 -ResourceGroupName $RG1
+$gw1pip2 = Get-AzPublicIpAddress -Name $GW1IPName2 -ResourceGroupName $RG1
+$vnet1gw = Get-AzVirtualNetworkGateway -Name $GWName1 -ResourceGroupName $RG1
+
+# Part 2 - Establish an active-active cross-premises connection
+
+# Step 1 - Create and configure the local network gateway
+
+# 1. Declare your variables
+
+$RG5 = "v-romubr"
+$Location5 = "West US"
+$LNGName51 = "Site5_1"
+$LNGPrefix51 = "10.52.255.253/32"
+$LNGIP51 = "131.107.72.22"
+$LNGASN5 = 65050
+$BGPPeerIP51 = "10.52.255.253"
+
+
+
 
 
