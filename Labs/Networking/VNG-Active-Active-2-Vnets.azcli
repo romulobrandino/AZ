@@ -1,7 +1,8 @@
 # VNG Active active INCOMPLETE
 
-# Phase 1
-# Vnet 1, Subnets and VNG 1 With ASN 65010
+
+# Vnet1, Subnets and VNG1 With ASN 65010
+# Vnet2, Subnets and VNG2 with ASN 65020
 
 
 ResourceGroup           = v-romubr
@@ -31,12 +32,19 @@ az network vnet create \
   -g v-romubr \
   -l eastus \
   --address-prefix 10.10.0.0/16 \
-  --subnet-name Frontend \
-  --subnet-prefix 10.10.1.0/24
+  --subnet-name GatewaySubnet\
+  --subnet-prefix 10.10.0.0/27
 
 # Vnet create another IP Range 
 # Optional
 az network vnet update -n VNet1 --address-prefixes 10.10.0.0/16 10.11.0.0/16 -g v-romubr
+
+# Add a gateway subnet
+az network vnet subnet create \
+  --vnet-name VNet1 \
+  -n Frontend \
+  -g v-romubr \
+  --address-prefix 10.10.1.0/24
 
 # Add a Backend subnet
 az network vnet subnet create \
@@ -45,20 +53,14 @@ az network vnet subnet create \
   -g v-romubr \
   --address-prefix 10.10.2.0/24
 
-# Add a gateway subnet
-az network vnet subnet create \
-  --vnet-name VNet1 \
-  -n GatewaySubnet \
-  -g v-romubr \
-  --address-prefix 10.10.0.0/27
-
+# Add a Bastion subnet (Optional)
 az network vnet subnet create \
   --vnet-name VNet1 \
   -n AzureBastionSubnet \
   -g v-romubr \
   --address-prefix 10.10.100.0/27  
 
-# Create 2 public IPs addresses
+# Create 2 public IPs addresses to be used by the VNG Active Active
 
 az network public-ip create \
   -n VNet1GWIP1 \
@@ -88,12 +90,19 @@ az network vnet create \
   -g v-romubr \
   -l westus \
   --address-prefix 10.20.0.0/16 \
-  --subnet-name Frontend \
-  --subnet-prefix 10.20.1.0/24
+  --subnet-name GatewaySubnet \
+  --subnet-prefix 10.20.0.0/24
 
 # ADD another IP adress Range 
 # Optional
 az network vnet update -n VNet2 --address-prefixes 10.20.0.0/16 10.21.0.0/16 -g v-romubr
+
+# Add Frontend subnet
+az network vnet subnet create \
+  --vnet-name VNet2 \
+  -n Frontend \
+  -g v-romubr \
+  --address-prefix 10.20.1.0/27
 
 # Add a Backend subnet
 az network vnet subnet create \
@@ -102,13 +111,7 @@ az network vnet subnet create \
   -g v-romubr \
   --address-prefix 10.20.2.0/24
 
-# Add a gateway subnet
-az network vnet subnet create \
-  --vnet-name VNet2 \
-  -n GatewaySubnet \
-  -g v-romubr \
-  --address-prefix 10.20.0.0/27
-
+# Add a Bastion subnet (Optional)
 az network vnet subnet create \
   --vnet-name VNet2 \
   -n AzureBastionSubnet \
@@ -138,6 +141,7 @@ az network public-ip list --resource-group v-romubr --output table
 # Obtain the Azure BGP peer IP address
 az network vnet-gateway list -g v-romubr
 
+
 # Phase 3 - Configure Local Network Gateway LNG
 
 # Check the public IPs of the VNG
@@ -156,12 +160,15 @@ az network local-gateway create --gateway-ip-address 13.64.92.63 --name Site_Wes
 az network local-gateway create --gateway-ip-address 157.56.181.195 --name Site_East1 --resource-group v-romubr --local-address-prefixes 10.11.0.4/32 --asn 65010 --bgp-peering-address 10.11.0.4 --no-wait
 az network local-gateway create --gateway-ip-address 157.56.181.209 --name Site_East2 --resource-group v-romubr --local-address-prefixes 10.11.0.5/32 --asn 65010 --bgp-peering-address 10.11.0.5 --no-wait
 
-# Phase 4 - Create the Connections
+
+
+# (Incomplete)
+# Phase 4 - Create the Connections (Incomplete)
 
 az network vpn-connection create --name to-onprem --resource-group v-romubr --vnet-gateway1 VNet1GW -l eastus --shared-key Msft123Msft123 --local-gateway2 to-onprem --enable-bgp
 
 
-# Option to integrate Two Vnets
+# Option to integrate Two Vnets (This is working)
 
 az network vpn-connection create -n VNet1ToVNet2 -g v-romubr --vnet-gateway1 VNet1GW --enable-bgp -l eastus --shared-key "Msft123Msft123" --vnet-gateway2 VNet2GW
 
