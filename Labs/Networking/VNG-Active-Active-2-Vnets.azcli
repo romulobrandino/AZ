@@ -162,10 +162,15 @@ az network local-gateway create --gateway-ip-address 157.56.181.209 --name Site_
 
 
 
-# (Incomplete)
-# Phase 4 - Create the Connections (Incomplete)
 
-az network vpn-connection create --name to-onprem --resource-group v-romubr --vnet-gateway1 VNet1GW -l eastus --shared-key Msft123Msft123 --local-gateway2 to-onprem --enable-bgp
+# Phase 4 - Create the Connections VNGs to LNGs
+
+az network vpn-connection create --name VNet1GW-Site_West1 --resource-group v-romubr --vnet-gateway1 VNet1GW -l eastus --shared-key Msft123Msft123 --local-gateway2 Site_West1 --enable-bgp
+az network vpn-connection create --name VNet1GW-Site_West2 --resource-group v-romubr --vnet-gateway1 VNet1GW -l eastus --shared-key Msft123Msft123 --local-gateway2 Site_West2 --enable-bgp
+
+az network vpn-connection create --name VNet2GW-Site_East1 --resource-group v-romubr --vnet-gateway1 VNet2GW -l westus --shared-key Msft123Msft123 --local-gateway2 Site_East1 --enable-bgp
+az network vpn-connection create --name VNet2GW-Site_East2 --resource-group v-romubr --vnet-gateway1 VNet2GW -l westus --shared-key Msft123Msft123 --local-gateway2 Site_East2 --enable-bgp
+
 
 
 # Option to integrate Two Vnets (This is working)
@@ -174,6 +179,25 @@ az network vpn-connection create -n VNet1ToVNet2 -g v-romubr --vnet-gateway1 VNe
 
 az network vpn-connection create -n VNet2ToVNet1 -g v-romubr --vnet-gateway1 VNet2GW --enable-bgp -l westus --shared-key "Msft123Msft123" --vnet-gateway2 VNet1GW
 
+# BGP Peeer Status
+# This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
+
+az network vnet-gateway list-learned-routes -g v-romubr -n Vnet1GW
+az network vnet-gateway list-learned-routes -g v-romubr -n Vnet2GW
+
+
+# BGP
+# List the routes of a virtual network gateway advertised to the specified peer.
+az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet1GW --peer 10.11.0.4
+az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet1GW --peer 10.11.0.5
+
+az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet2GW --peer 10.20.0.4
+az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet2GW --peer 10.20.0.5
+
+# BGP
+# list-learned-routes
+az network vnet-gateway list-learned-routes -g v-romubr -n Vnet1GW 
+az network vnet-gateway list-learned-routes -g v-romubr -n Vnet2GW 
 
 
 
