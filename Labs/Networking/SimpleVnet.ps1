@@ -1,4 +1,4 @@
-# Create the virtual network
+# Create the virtual network using Powershell
 # New-AzVirtualNetwork
 
 $virtualNetwork = New-AzVirtualNetwork `
