@@ -6,7 +6,7 @@
 
 
 ResourceGroup           = v-romubr
-Location                = eastus 
+Location1               = eastus 
 VnetName1               = VNet1
 AddressSpace            = 10.10.0.0/16 
 Subnet1Name             = Frontend 
@@ -14,14 +14,17 @@ Subnet1 address-prefix  = 10.10.1.0/24
 GatewaySubnet           = 10.10.0.0/27 
 LocalNetworkGatewayName = Site2 
 LNG Public IP           = <VPN device IP address>
-LocalAddrPrefix1        = 10.50.0.0/24
-LocalAddrPrefix2        = 10.51.0.0/24   
+LocalAddrPrefix1        = <BGP>
+LocalAddrPrefix2        = <BGP>
 GatewayName             = VNet1GW 
 PublicIP                = VNet1GWIP1 
 PublicIP                = VNet1GWIP2
 VPNType                 = RouteBased 
 GatewayType             = Vpn 
-ConnectionName          = VNet1toSite2
+ConnectionName1         = VNet1GW-Site_West1
+ConnectionName2         = VNet1GW-Site_West2
+ConnectionName3         = VNet2GW-Site_East1
+ConnectionName4         = VNet2GW-Site_East2
 ConnectionName          = 65010
 
 # Create a virtual network
@@ -91,7 +94,7 @@ az network vnet create \
   -l westus \
   --address-prefix 10.20.0.0/16 \
   --subnet-name GatewaySubnet \
-  --subnet-prefix 10.20.0.0/24
+  --subnet-prefix 10.20.0.0/27
 
 # ADD another IP adress Range 
 # Optional
@@ -102,7 +105,7 @@ az network vnet subnet create \
   --vnet-name VNet2 \
   -n Frontend \
   -g v-romubr \
-  --address-prefix 10.20.1.0/27
+  --address-prefix 10.20.1.0/24
 
 # Add a Backend subnet
 az network vnet subnet create \
@@ -188,8 +191,8 @@ az network vnet-gateway list-learned-routes -g v-romubr -n Vnet2GW
 
 # BGP
 # List the routes of a virtual network gateway advertised to the specified peer.
-az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet1GW --peer 10.11.0.4
-az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet1GW --peer 10.11.0.5
+az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet1GW --peer 10.10.0.4
+az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet1GW --peer 10.10.0.5
 
 az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet2GW --peer 10.20.0.4
 az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet2GW --peer 10.20.0.5
