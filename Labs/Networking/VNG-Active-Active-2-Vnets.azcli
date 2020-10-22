@@ -1,9 +1,15 @@
 # VNG Active active INCOMPLETE
 
-
 # Vnet1, Subnets and VNG1 With ASN 65010
 # Vnet2, Subnets and VNG2 with ASN 65020
 
+# Set the variables
+# Set the resource group name.
+RESOURCEGROUP=v-romubr
+# 
+export AZURE_STORAGE_ACCOUNT=<storageaccountname>
+
+export LOCATION=eastus
 
 ResourceGroup           = v-romubr
 Location1               = eastus 
