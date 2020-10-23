@@ -4,15 +4,15 @@
 # Vnet2, Subnets and VNG2 with ASN 65020
 
 # Set the variables
-# Set the resource group name.
 rgName="v-romubr"
+vNet1="Vnet-East-US"
 location1="eastus"
 location2="westus"
 
 
-ResourceGroup           = v-romubr
-Location1               = eastus 
-VnetName1               = VNet1
+ResourceGroup           = $rgName
+Location1               = $location1 
+VnetName1               = $vNet1
 AddressSpace            = 10.10.0.0/16 
 Subnet1Name             = Frontend 
 Subnet1 address-prefix  = 10.10.1.0/24 
@@ -21,13 +21,13 @@ LocalNetworkGatewayName = Site2
 LNG Public IP           = <VPN device IP address>
 LocalAddrPrefix1        = <BGP>
 LocalAddrPrefix2        = <BGP>
-GatewayName             = VNet1GW 
-PublicIP                = VNet1GWIP1 
-PublicIP                = VNet1GWIP2
+GatewayName             = $vNet1GW 
+PublicIP                = $vNet1GWIP1 
+PublicIP                = $vNet1GWIP2
 VPNType                 = RouteBased 
 GatewayType             = Vpn 
-ConnectionName1         = VNet1GW-Site_West1
-ConnectionName2         = VNet1GW-Site_West2
+ConnectionName1         = $vNet1GW-Site_West1
+ConnectionName2         = $vNet1GW-Site_West2
 ConnectionName3         = VNet2GW-Site_East1
 ConnectionName4         = VNet2GW-Site_East2
 ConnectionName          = 65010
@@ -36,56 +36,56 @@ ConnectionName          = 65010
 
 # Vnet 01
 az network vnet create \
-  -n VNet1 \
-  -g v-romubr \
-  -l eastus \
+  -n $vNet1 \
+  -g $rgName \
+  -l $location1 \
   --address-prefix 10.10.0.0/16 \
   --subnet-name GatewaySubnet\
   --subnet-prefix 10.10.0.0/27
 
 # Vnet create another IP Range 
 # Optional
-az network vnet update -n VNet1 --address-prefixes 10.10.0.0/16 10.11.0.0/16 -g v-romubr
+az network vnet update -n $vNet1 --address-prefixes 10.10.0.0/16 10.11.0.0/16 -g $rgName
 
 # Add a frontend subnet
 az network vnet subnet create \
-  --vnet-name VNet1 \
+  --vnet-name $vNet1 \
   -n FrontEnd \
-  -g v-romubr \
+  -g $rgName \
   --address-prefix 10.10.1.0/24
 
 # Add a Backend subnet
 az network vnet subnet create \
-  --vnet-name VNet1 \
+  --vnet-name $vNet1 \
   -n BackEnd \
-  -g v-romubr \
+  -g $rgName \
   --address-prefix 10.10.2.0/24
 
 # Add a Bastion subnet (Optional)
 az network vnet subnet create \
-  --vnet-name VNet1 \
+  --vnet-name $vNet1 \
   -n AzureBastionSubnet \
-  -g v-romubr \
+  -g $rgName \
   --address-prefix 10.10.100.0/27  
 
 # Create 2 public IPs addresses to be used by the VNG Active Active
 
 az network public-ip create \
-  -n VNet1GWIP1 \
-  -l eastus \
-  -g v-romubr \
+  -n $vNet1GWIP1 \
+  -l $location1 \
+  -g $rgName \
   --allocation-method Dynamic
 
 az network public-ip create \
-  -n VNet1GWIP2 \
-  -l eastus \
-  -g v-romubr \
+  -n $vNet1GWIP2 \
+  -l $location1 \
+  -g $rgName \
   --allocation-method Dynamic
 
 # Create the VPN gateway with the AS number and active active (2 Public IPs)
-az network vnet-gateway create -n VNet1GW -l eastus --public-ip-address VNet1GWIP1 VNet1GWIP2 -g v-romubr --vnet Vnet1 --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --asn 65010 --no-wait
+az network vnet-gateway create -n $vNet1GW -l $location1 --public-ip-address $vNet1GWIP1 $vNet1GWIP2 -g $rgName --vnet $vNet1 --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --asn 65010 --no-wait
 
-# Phase 1 completed: Vnet1, GW1, Subnets, PIPs, BGP Peering
+# Phase 1 completed: $vNet1, GW1, Subnets, PIPs, BGP Peering
 
 # Phase 2
 # Create Vnet2, GW2, Subnets and BGP Peering
@@ -95,117 +95,117 @@ az network vnet-gateway create -n VNet1GW -l eastus --public-ip-address VNet1GWI
 # Vnet 2
 az network vnet create \
   -n VNet2 \
-  -g v-romubr \
-  -l westus \
+  -g $rgName \
+  -l $location2 \
   --address-prefix 10.20.0.0/16 \
   --subnet-name GatewaySubnet \
   --subnet-prefix 10.20.0.0/27
 
 # ADD another IP adress Range 
 # Optional
-az network vnet update -n VNet2 --address-prefixes 10.20.0.0/16 10.21.0.0/16 -g v-romubr
+az network vnet update -n VNet2 --address-prefixes 10.20.0.0/16 10.21.0.0/16 -g $rgName
 
 # Add Frontend subnet
 az network vnet subnet create \
   --vnet-name VNet2 \
   -n Frontend \
-  -g v-romubr \
+  -g $rgName \
   --address-prefix 10.20.1.0/24
 
 # Add a Backend subnet
 az network vnet subnet create \
   --vnet-name VNet2 \
   -n BackEnd \
-  -g v-romubr \
+  -g $rgName \
   --address-prefix 10.20.2.0/24
 
 # Add a Bastion subnet (Optional)
 az network vnet subnet create \
   --vnet-name VNet2 \
   -n AzureBastionSubnet \
-  -g v-romubr \
+  -g $rgName \
   --address-prefix 10.20.100.0/27  
 
 # Create 2 public IPs addresses
 
 az network public-ip create \
   -n VNet2GWIP1 \
-  -l westus \
-  -g v-romubr \
+  -l $location2 \
+  -g $rgName \
   --allocation-method Dynamic
 
 az network public-ip create \
   -n VNet2GWIP2 \
-  -l westus \
-  -g v-romubr \
+  -l $location2 \
+  -g $rgName \
   --allocation-method Dynamic
 
 # Create the VPN gateway with the AS number and active active (2 Public IPs)
-az network vnet-gateway create -n VNet2GW -l westus --public-ip-address VNet2GWIP1 VNet2GWIP2 -g v-romubr --vnet Vnet2 --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --asn 65020 --no-wait
+az network vnet-gateway create -n VNet2GW -l $location2 --public-ip-address VNet2GWIP1 VNet2GWIP2 -g $rgName --vnet Vnet2 --gateway-type Vpn --sku VpnGw1 --vpn-type RouteBased --asn 65020 --no-wait
 
 # Configure your VPN device -> To check the public IPs of the VNG
-az network public-ip list --resource-group v-romubr --output table
+az network public-ip list --resource-group $rgName --output table
 
 # Obtain the Azure BGP peer IP address
-az network vnet-gateway list -g v-romubr
+az network vnet-gateway list -g $rgName
 
 
 # Phase 3 - Configure Local Network Gateway LNG
 
 # Check the public IPs of the VNG
-az network public-ip list --resource-group v-romubr --output table
+az network public-ip list --resource-group $rgName --output table
 
 # Obtain the Azure BGP peer IP address
-az network vnet-gateway list -g v-romubr -o yamlc
+az network vnet-gateway list -g $rgName -o yamlc
 
-# For Vnet1: LNG: Site_West1 and Site_West2
-# az network local-gateway create --gateway-ip-address <IP_VNet2GWIP1> --name Site_West1 --resource-group v-romubr --local-address-prefixes <BGP_Peer1/32> --asn 65020 --bgp-peering-address <BGP_Peer1>
-az network local-gateway create --gateway-ip-address 13.64.92.31 --name Site_West1 --resource-group v-romubr --local-address-prefixes 10.20.0.4/32 --asn 65020 --bgp-peering-address 10.20.0.4 --no-wait
-az network local-gateway create --gateway-ip-address 13.64.92.63 --name Site_West2 --resource-group v-romubr --local-address-prefixes 10.20.0.5/32 --asn 65020 --bgp-peering-address 10.20.0.5 --no-wait
+# For $vNet1: LNG: Site_West1 and Site_West2
+# az network local-gateway create --gateway-ip-address <IP_VNet2GWIP1> --name Site_West1 --resource-group $rgName --local-address-prefixes <BGP_Peer1/32> --asn 65020 --bgp-peering-address <BGP_Peer1>
+az network local-gateway create --gateway-ip-address 13.64.92.31 --name Site_West1 --resource-group $rgName --local-address-prefixes 10.20.0.4/32 --asn 65020 --bgp-peering-address 10.20.0.4 --no-wait
+az network local-gateway create --gateway-ip-address 13.64.92.63 --name Site_West2 --resource-group $rgName --local-address-prefixes 10.20.0.5/32 --asn 65020 --bgp-peering-address 10.20.0.5 --no-wait
 
 # For Vnet2: LNG: Site_West1 and Site_West2
-# az network local-gateway create --gateway-ip-address <IP_VNet1GWIP1> --name Site_East1 --resource-group v-romubr --local-address-prefixes <BGP_Peer1/32> --asn 65010 --bgp-peering-address <BGP_Peer1>
-az network local-gateway create --gateway-ip-address 157.56.181.195 --name Site_East1 --resource-group v-romubr --local-address-prefixes 10.11.0.4/32 --asn 65010 --bgp-peering-address 10.11.0.4 --no-wait
-az network local-gateway create --gateway-ip-address 157.56.181.209 --name Site_East2 --resource-group v-romubr --local-address-prefixes 10.11.0.5/32 --asn 65010 --bgp-peering-address 10.11.0.5 --no-wait
+# az network local-gateway create --gateway-ip-address <IP_$vNet1GWIP1> --name Site_East1 --resource-group $rgName --local-address-prefixes <BGP_Peer1/32> --asn 65010 --bgp-peering-address <BGP_Peer1>
+az network local-gateway create --gateway-ip-address 157.56.181.195 --name Site_East1 --resource-group $rgName --local-address-prefixes 10.11.0.4/32 --asn 65010 --bgp-peering-address 10.11.0.4 --no-wait
+az network local-gateway create --gateway-ip-address 157.56.181.209 --name Site_East2 --resource-group $rgName --local-address-prefixes 10.11.0.5/32 --asn 65010 --bgp-peering-address 10.11.0.5 --no-wait
 
 
 
 
 # Phase 4 - Create the Connections VNGs to LNGs
 
-az network vpn-connection create --name VNet1GW-Site_West1 --resource-group v-romubr --vnet-gateway1 VNet1GW -l eastus --shared-key Msft123Msft123 --local-gateway2 Site_West1 --enable-bgp
-az network vpn-connection create --name VNet1GW-Site_West2 --resource-group v-romubr --vnet-gateway1 VNet1GW -l eastus --shared-key Msft123Msft123 --local-gateway2 Site_West2 --enable-bgp
+az network vpn-connection create --name $vNet1GW-Site_West1 --resource-group $rgName --vnet-gateway1 $vNet1GW -l $location1 --shared-key Msft123Msft123 --local-gateway2 Site_West1 --enable-bgp
+az network vpn-connection create --name $vNet1GW-Site_West2 --resource-group $rgName --vnet-gateway1 $vNet1GW -l $location1 --shared-key Msft123Msft123 --local-gateway2 Site_West2 --enable-bgp
 
-az network vpn-connection create --name VNet2GW-Site_East1 --resource-group v-romubr --vnet-gateway1 VNet2GW -l westus --shared-key Msft123Msft123 --local-gateway2 Site_East1 --enable-bgp
-az network vpn-connection create --name VNet2GW-Site_East2 --resource-group v-romubr --vnet-gateway1 VNet2GW -l westus --shared-key Msft123Msft123 --local-gateway2 Site_East2 --enable-bgp
+az network vpn-connection create --name VNet2GW-Site_East1 --resource-group $rgName --vnet-gateway1 VNet2GW -l $location2 --shared-key Msft123Msft123 --local-gateway2 Site_East1 --enable-bgp
+az network vpn-connection create --name VNet2GW-Site_East2 --resource-group $rgName --vnet-gateway1 VNet2GW -l $location2 --shared-key Msft123Msft123 --local-gateway2 Site_East2 --enable-bgp
 
 
 
 # Option to integrate Two Vnets (This is working)
 
-az network vpn-connection create -n VNet1ToVNet2 -g v-romubr --vnet-gateway1 VNet1GW --enable-bgp -l eastus --shared-key "Msft123Msft123" --vnet-gateway2 VNet2GW
+az network vpn-connection create -n $vNet1ToVNet2 -g $rgName --vnet-gateway1 $vNet1GW --enable-bgp -l $location1 --shared-key "Msft123Msft123" --vnet-gateway2 VNet2GW
 
-az network vpn-connection create -n VNet2ToVNet1 -g v-romubr --vnet-gateway1 VNet2GW --enable-bgp -l westus --shared-key "Msft123Msft123" --vnet-gateway2 VNet1GW
+az network vpn-connection create -n VNet2To$vNet1 -g $rgName --vnet-gateway1 VNet2GW --enable-bgp -l $location2 --shared-key "Msft123Msft123" --vnet-gateway2 $vNet1GW
 
 # BGP Peeer Status
 # This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
 
-az network vnet-gateway list-learned-routes -g v-romubr -n Vnet1GW
-az network vnet-gateway list-learned-routes -g v-romubr -n Vnet2GW
+az network vnet-gateway list-learned-routes -g $rgName -n $vNet1GW
+az network vnet-gateway list-learned-routes -g $rgName -n Vnet2GW
 
 
 # BGP
 # List the routes of a virtual network gateway advertised to the specified peer.
-az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet1GW --peer 10.10.0.4
-az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet1GW --peer 10.10.0.5
+az network vnet-gateway list-advertised-routes -g $rgName -n $vNet1GW --peer 10.10.0.4
+az network vnet-gateway list-advertised-routes -g $rgName -n $vNet1GW --peer 10.10.0.5
 
-az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet2GW --peer 10.20.0.4
-az network vnet-gateway list-advertised-routes -g v-romubr -n Vnet2GW --peer 10.20.0.5
+az network vnet-gateway list-advertised-routes -g $rgName -n Vnet2GW --peer 10.20.0.4
+az network vnet-gateway list-advertised-routes -g $rgName -n Vnet2GW --peer 10.20.0.5
 
 # BGP
 # list-learned-routes
-az network vnet-gateway list-learned-routes -g v-romubr -n Vnet1GW 
-az network vnet-gateway list-learned-routes -g v-romubr -n Vnet2GW 
+az network vnet-gateway list-learned-routes -g $rgName -n $vNet1GW 
+az network vnet-gateway list-learned-routes -g $rgName -n Vnet2GW 
 
 
 
@@ -228,15 +228,15 @@ az network vnet-gateway list-learned-routes -g v-romubr -n Vnet2GW
 
 
 # Create the VPN connection
-az network vpn-connection create --name VNet1toSite2 --resource-group v-romubr --vnet-gateway1 VNet1GW -l eastus --shared-key abc123 --local-gateway2 Site2
+az network vpn-connection create --name $vNet1toSite2 --resource-group $rgName --vnet-gateway1 $vNet1GW -l $location1 --shared-key abc123 --local-gateway2 Site2
 
 # Verify the VPN connection
-az network vpn-connection show --name VNet1toSite2 --resource-group TestRG1
+az network vpn-connection show --name $vNet1toSite2 --resource-group TestRG1
 
 # Common tasks
 
 #To view local network gateways
-az network local-gateway list --resource-group v-romubr
+az network local-gateway list --resource-group $rgName
 
 
 
@@ -244,7 +244,7 @@ az network local-gateway list --resource-group v-romubr
 
 
 # Clean up resources
-az group delete --name v-romubr --yes
+az group delete --name $rgName --yes
 
 
 
