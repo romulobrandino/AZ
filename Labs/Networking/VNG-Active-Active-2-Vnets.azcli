@@ -5,11 +5,10 @@
 
 # Set the variables
 # Set the resource group name.
-RESOURCEGROUP=v-romubr
-# 
-export AZURE_STORAGE_ACCOUNT=<storageaccountname>
+rgName="v-romubr"
+location1="eastus"
+location2="westus"
 
-export LOCATION=eastus
 
 ResourceGroup           = v-romubr
 Location1               = eastus 
@@ -48,10 +47,10 @@ az network vnet create \
 # Optional
 az network vnet update -n VNet1 --address-prefixes 10.10.0.0/16 10.11.0.0/16 -g v-romubr
 
-# Add a gateway subnet
+# Add a frontend subnet
 az network vnet subnet create \
   --vnet-name VNet1 \
-  -n Frontend \
+  -n FrontEnd \
   -g v-romubr \
   --address-prefix 10.10.1.0/24
 
