@@ -1,12 +1,21 @@
-# VNG Active active INCOMPLETE
+# VNG Active active 
+
+INCOMPLETE
 
 # Vnet1, Subnets and VNG1 With ASN 65010
 # Vnet2, Subnets and VNG2 with ASN 65020
 
 # Set the variables
+# Resource group
 rgName="v-romubr"
+# Virtual Network 1
 vNet1="Vnet-East-US"
+vNet1AddressSpace="10.10.0.0/16"
 location1="eastus"
+Subnet1Vnet1="GatewaySubnet"
+Subnet1Vnet1AddressSpace="10.10.0.0/27"
+
+
 location2="westus"
 
 
