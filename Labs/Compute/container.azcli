@@ -61,24 +61,256 @@ az container logs \
 
 # Set environment variables
 
+# Environment variables enable you to dynamically configure the application or script the container runs. 
+# You can use the Azure CLI, PowerShell, or the Azure portal to set variables when you create the container. 
+# Secured environment variables enable you to prevent sensitive information from displaying in the container's output.
+
+# For Training create a Cosmos DB
+# Deploy Azure Cosmos DB
+# When you deploy Azure Cosmos DB, you provide a unique database name. 
+# For learning purposes, run this command from Cloud Shell to create a Bash variable that holds a unique name.
+COSMOS_DB_NAME=aci-cosmos-db-$RANDOM
+
+# Run this az cosmosdb create command to create your Azure Cosmos DB instance.
+# COSMOS_DB_ENDPOINT
+COSMOS_DB_ENDPOINT=$(az cosmosdb create \
+  --resource-group $RG \
+  --name $COSMOS_DB_NAME \
+  --query documentEndpoint \
+  --output tsv)
+
+# Run az cosmosdb keys list to get the Azure Cosmos DB connection key and store it in a Bash variable named COSMOS_DB_MASTERKEY.
+# COSMOS_DB_MASTERKEY
+COSMOS_DB_MASTERKEY=$(az cosmosdb keys list \
+  --resource-group $RG \
+  --name $COSMOS_DB_NAME \
+  --query primaryMasterKey \
+  --output tsv)
 
 
+# Deploy a container that works with your database
+
+# Here you'll create an Azure container instance that can read from and write records to your Azure Cosmos DB instance.
+# The two environment variables you created in the last part, COSMOS_DB_ENDPOINT and COSMOS_DB_MASTERKEY, 
+# hold the values you need to connect to the Azure Cosmos DB instance.
+# Run the following az container create command to create the container.
+az container create \
+  --resource-group l$RG \
+  --name aci-demo \
+  --image microsoft/azure-vote-front:cosmosdb \
+  --ip-address Public \
+  --location $RG \
+  --environment-variables \
+    COSMOS_DB_ENDPOINT=$COSMOS_DB_ENDPOINT \
+    COSMOS_DB_MASTERKEY=$COSMOS_DB_MASTERKEY
+
+# microsoft/azure-vote-front:cosmosdb refers to a Docker image that runs a fictitious voting app.
+
+# Note the --environment-variables argument. This argument specifies environment variables that are passed to the container when the container starts. 
+# The container image is configured to look for these environment variables. Here, you pass the name of the Azure Cosmos DB endpoint and its connection key.
+
+# Run az container show to get your container's public IP address.
+az container show \
+  --resource-group $RG \
+  --name aci-demo \
+  --query ipAddress.ip \
+  --output tsv
+
+# Use secured environment variables to hide connection information
+
+# Let's start by seeing the current behavior in action. 
+# Run the following az container show command to display your container's environment variables.
+az container show \
+  --resource-group $RG \
+  --name aci-demo \
+  --query containers[0].environmentVariables
+
+# Run the following command to create a second container, named aci-demo-secure, that makes use of secured environment variables.
+az container create \
+  --resource-group $RG \
+  --name aci-demo-secure \
+  --image microsoft/azure-vote-front:cosmosdb \
+  --ip-address Public \
+  --location $Location \
+  --secure-environment-variables \
+    COSMOS_DB_ENDPOINT=$COSMOS_DB_ENDPOINT \
+    COSMOS_DB_MASTERKEY=$COSMOS_DB_MASTERKEY
+
+# Note the use of the --secure-environment-variables argument.
+
+# Run the following az container show command to display your container's environment variables.
+az container show \
+  --resource-group $RG \
+  --name aci-demo-secure \
+  --query containers[0].environmentVariables
 
 
+########################################################################
+
+########## Use data volumes
+
+# By default, Azure Container Instances are stateless. If the container crashes or stops, all of its state is lost. 
+# To persist state beyond the lifetime of the container, you must mount a volume from an external store.
+# Here, you'll mount an Azure file share to an Azure container instance so you can store data and access it later.
+
+########## Create an Azure file share
+
+# Here you'll create a storage account and a file share that you'll later make accessible to an Azure container instance.
+
+# Your storage account requires a unique name. For learning purposes, run the following command to store a unique name in a Bash variable.
+STORAGE_ACCOUNT_NAME=mystorageaccount$RANDOM
+
+# Run the following az storage account create command to create your storage account.
+az storage account create \
+  --resource-group $RG \
+  --name $STORAGE_ACCOUNT_NAME \
+  --sku Standard_LRS \
+  --location $Location
+
+# Run the following command to place the storage account connection string into an 
+# environment variable named AZURE_STORAGE_CONNECTION_STRING.
+export AZURE_STORAGE_CONNECTION_STRING=$(az storage account show-connection-string \
+  --resource-group $RG \
+  --name $STORAGE_ACCOUNT_NAME \
+  --output tsv)
+
+# AZURE_STORAGE_CONNECTION_STRING is a special environment variable that's understood by the Azure CLI. 
+# The export part makes this variable accessible to other CLI commands you'll run shortly.
+
+# Run this command to create a file share, named aci-share-demo, in the storage account.
+az storage share create --name aci-share-demo
+
+########## Get storage credentials
+
+# Run the following command to get the storage account key.
+STORAGE_KEY=$(az storage account keys list \
+  --resource-group $RG \
+  --account-name $STORAGE_ACCOUNT_NAME \
+  --query "[0].value" \
+  --output tsv)
+# The result is stored in a Bash variable named STORAGE_KEY.
+
+# As an optional step, print the storage key to the console.
+echo $STORAGE_KEY
+
+########## Deploy a container and mount the file share
+
+# Run this az container create command to create a container that mounts /aci/logs/ to your file share.
+az container create \
+  --resource-group $RG \
+  --name aci-demo-files \
+  --image microsoft/aci-hellofiles \
+  --location $Location \
+  --ports 80 \
+  --ip-address Public \
+  --azure-file-volume-account-name $STORAGE_ACCOUNT_NAME \
+  --azure-file-volume-account-key $STORAGE_KEY \
+  --azure-file-volume-share-name aci-share-demo \
+  --azure-file-volume-mount-path /aci/logs/
+
+# Run az container show to get your container's public IP address.
+az container show \
+  --resource-group $RG \
+  --name aci-demo-files \
+  --query ipAddress.ip \
+  --output tsv
+
+# Run this az storage file list command to display the files that are contained in your file share.
+az storage file list -s aci-share-demo -o table
+
+# Run az storage file download to download a file to your Cloud Shell session. 
+# Replace <filename> with one of the files that appeared in the previous step.
+az storage file download -s aci-share-demo -p <filename>
+
+# Run the cat command to print the contents of the file.
+cat <filename>
+
+# Remember that your data persists when your container exits. 
+# You can mount your file share to other container instances to make that data available to them. 
 
 
+########################################################################
 
+########## Troubleshoot Azure Container Instances
 
+# To help you understand basic ways to troubleshoot container instances, here you'll perform some basic operations such as:
 
+# Pulling container logs
+# Viewing container events
+# Attaching to a container instance
 
+########## Create a container
+# Run the following az container create command to create a basic container.
 
+az container create \
+  --resource-group $RG \
+  --name mycontainer \
+  --image microsoft/sample-aks-helloworld \
+  --ports 80 \
+  --ip-address Public \
+  --location $Location
 
+# The microsoft/sample-aks-helloworld image runs a web server that displays a basic web page.
 
+########## Get logs from your container instance
 
+# Run the following az container logs command to see the output from the container's running application.
+az container logs \
+  --resource-group $RG \
+  --name mycontainer
 
+# You see output that resembles the following.
 
+# Checking for script in /app/prestart.sh
+# Running script /app/prestart.sh
+# Running inside /app/prestart.sh, you could add migrations to this file, e.g.:
 
+#! /usr/bin/env bash
 
+# Let the DB start
+# sleep 10;
+# Run migrations
+# alembic upgrade head
+
+########## Get container events
+# The az container attach command provides diagnostic information during container startup. Once the container has started, it also writes standard output and standard error streams to your local terminal.
+# Run az container attach to attach to your container.
+az container attach \
+  --resource-group $RG \
+  --name mycontainer
+
+# Execute a command in your container
+az container exec \
+  --resource-group $RG \
+  --name mycontainer \
+  --exec-command /bin/sh
+
+########## Monitor CPU and memory usage on your container
+
+# Here you'll see how to monitor CPU and memory usage on your container.
+# Run the following az container show command to get the ID of your Azure container instance and store the ID in a Bash variable.
+
+CONTAINER_ID=$(az container show \
+  --resource-group $RG \
+  --name mycontainer \
+  --query id \
+  --output tsv)
+
+# Run the az monitor metrics list command to retrieve CPU usage information.
+az monitor metrics list \
+  --resource $CONTAINER_ID \
+  --metric CPUUsage \
+  --output table
+
+# Note the --metric argument. Here, CPUUsage specifies to retrieve CPU usage.
+
+# Run this az monitor metrics list command to retrieve memory usage information.
+az monitor metrics list \
+  --resource $CONTAINER_ID \
+  --metric MemoryUsage \
+  --output table
+  
+# Here, you specify MemoryUsage for the --metric argument to retrieve memory usage information.
 
 
 
