@@ -26,3 +26,78 @@ az vm create \
     --size "Standard_DS5_v2"
 
 
+# Resize an existing VM First LIst the size available
+az vm list-vm-resize-options \
+    --resource-group <Your_RG> \
+    --name SampleVM \
+    --output table
+
+# Resize an existing VM 
+az vm resize \
+    --resource-group <Your_RG> \
+    --name SampleVM \
+    --size Standard_D2s_v3
+
+# List the VMs in your subscription
+az vm list
+
+# Output types
+az vm list --output table
+
+# Getting the IP address
+az vm list-ip-addresses -n SampleVM -o table
+
+# Getting VM details
+az vm show --resource-group <Your_RG> --name SampleVM
+
+# Filtering our Azure CLI queries
+az vm show \
+    --resource-group <Your_RG> \
+    --name SampleVM \
+    --query "osProfile.adminUsername"
+
+az vm show \
+    --resource-group <Your_RG> \
+    --name SampleVM \
+    --query hardwareProfile.vmSize
+
+az vm show \
+    --resource-group <Your_RG> \
+    --name SampleVM \
+    --query "networkProfile.networkInterfaces[].id"
+
+az vm show \
+    --resource-group <Your_RG> \
+    --name SampleVM \
+    --query "networkProfile.networkInterfaces[].id" -o tsv
+
+# Stopping a VM
+az vm stop \
+    --name SampleVM \
+    --resource-group learn-be98d5cb-5f1e-4599-ab0a-3399c0f48685
+
+az vm get-instance-view \
+    --name SampleVM \
+    --resource-group learn-be98d5cb-5f1e-4599-ab0a-3399c0f48685 \
+    --query "instanceView.statuses[?starts_with(code, 'PowerState/')].displayStatus" -o tsv
+
+# Starting a VM
+az vm start \
+    --name SampleVM \
+    --resource-group learn-be98d5cb-5f1e-4599-ab0a-3399c0f48685
+
+
+# Query your PIP
+az vm list-ip-addresses --name SampleVM --output table
+
+# Install NGINX web server
+sudo apt-get -y update && sudo apt-get -y install nginx
+
+# Open Port 80
+az vm open-port \
+    --port 80 \
+    --resource-group learn-be98d5cb-5f1e-4599-ab0a-3399c0f48685 \
+    --name SampleVM
+
+
+
