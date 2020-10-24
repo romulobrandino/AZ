@@ -99,5 +99,6 @@ az vm open-port \
     --resource-group learn-be98d5cb-5f1e-4599-ab0a-3399c0f48685 \
     --name SampleVM
 
-
+# Check the html code in the webserver
+curl -m 10 <PublicIPAddress>
 
