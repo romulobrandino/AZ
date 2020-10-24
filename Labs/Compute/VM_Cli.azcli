@@ -1,0 +1,28 @@
+# Listing images
+az vm image list --output table
+
+# Getting all images
+
+# For example, try the following command to see all Wordpress images available:
+az vm image list --sku Wordpress --output table --all
+
+# Or this command to see all images provided by Microsoft:
+az vm image list --publisher Microsoft --output table --all
+
+# Location-specific images
+az vm image list --location eastus --output table
+
+# Pre-defined VM sizes
+az vm list-sizes --location eastus --output table
+
+# Specify a size during VM creation
+az vm create \
+    --resource-group <Your_RG> \
+    --name SampleVM2 \
+    --image UbuntuLTS \
+    --admin-username azureuser \
+    --generate-ssh-keys \
+    --verbose \
+    --size "Standard_DS5_v2"
+
+
