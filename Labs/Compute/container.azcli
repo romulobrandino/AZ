@@ -1,0 +1,93 @@
+# Variables
+RG="container"
+Location="eastus"
+
+
+# Create a container
+
+# Create a Resource Group
+az group create --name $RG --location $Location
+
+# You provide a DNS name to expose your container to the Internet. 
+# Your DNS name must be unique. For learning purposes, run this command from Cloud Shell to create a Bash variable that holds a unique name.
+DNS_NAME_LABEL=aci-demo-$RANDOM
+
+# Run the following az container create command to start a container instance.
+az container create \
+  --resource-group $RG \
+  --name mycontainer \
+  --image microsoft/aci-helloworld \
+  --ports 80 \
+  --dns-name-label $DNS_NAME_LABEL \
+  --location $Location
+
+# $DNS_NAME_LABEL specifies your DNS name. 
+# The image name, microsoft/aci-helloworld, refers to a Docker image hosted on Docker Hub that runs a basic Node.js web application.
+
+# When the az container create command completes, run az container show to check its status.
+az container show \
+  --resource-group $RG \
+  --name mycontainer \
+  --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" \
+  --out table
+
+# FQDN                                     ProvisioningState
+# ---------------------------------------  -------------------
+# aci-demo-24861.eastus.azurecontainer.io  Succeeded
+
+# Run a container to completion (OnFailure)
+
+# Run this az container create command to start the container.
+az container create \
+  --resource-group $RG \
+  --name mycontainer-restart-demo \
+  --image microsoft/aci-wordcount:latest \
+  --restart-policy OnFailure \
+  --location $Location
+
+# Azure Container Instances starts the container and then stops it when its process (a script, in this case) exits. 
+# When Azure Container Instances stops a container whose restart policy is Never or OnFailure, the container's status is set to Terminated.
+
+# Run az container show to check your container's status.
+az container show \
+  --resource-group $RG \
+  --name mycontainer-restart-demo \
+  --query containers[0].instanceView.currentState.state
+
+# View the container's logs to examine the output. To do so, run az container logs like this.
+az container logs \
+  --resource-group $RG \
+  --name mycontainer-restart-demo
+
+# Set environment variables
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
