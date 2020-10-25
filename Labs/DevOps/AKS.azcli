@@ -1,0 +1,30 @@
+# Variables
+RESOURCE_GROUP='learning'
+AKS_CLUSTER='az104-9c-aks1'
+
+# credentials for AKS cluster
+az aks get-credentials --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER
+
+# verify connectivity to the AKS cluster:
+kubectl get nodes
+
+# deploy the nginx image from the Docker Hub
+kubectl create deployment nginx-deployment --image=nginx
+
+# run the following to verify that a Kubernetes pod has been created
+kubectl get pods
+
+# run the following to identify the state of the deployment:
+kubectl get deployment
+
+# run the following to make the pod available from Internet:
+kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer
+
+# run the following to identify whether a public IP address has been provisioned:
+kubectl get service
+
+
+
+
+
+
