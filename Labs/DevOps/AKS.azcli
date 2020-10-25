@@ -96,4 +96,4 @@ kubectl get pod -o=custom-columns=NODE:.spec.nodeName,POD:.metadata.name
 
 # run the following to delete the deployment:
 kubectl delete deployment nginx-deployment
-
+# deployment.apps "nginx-deployment" deleted
