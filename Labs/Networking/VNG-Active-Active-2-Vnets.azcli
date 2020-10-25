@@ -237,27 +237,3 @@ az network vnet-gateway list-learned-routes -g $rgName -n Vnet2GW
 
 
 
-
-
-# Create the VPN connection
-az network vpn-connection create --name $vNet1toSite2 --resource-group $rgName --vnet-gateway1 $vNet1GW -l $location1 --shared-key abc123 --local-gateway2 Site2
-
-# Verify the VPN connection
-az network vpn-connection show --name $vNet1toSite2 --resource-group TestRG1
-
-# Common tasks
-
-#To view local network gateways
-az network local-gateway list --resource-group $rgName
-
-
-
-
-
-
-# Clean up resources
-az group delete --name $rgName --yes
-
-
-
-
