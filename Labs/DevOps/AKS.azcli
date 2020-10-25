@@ -64,12 +64,35 @@ kubectl get nodes
 
 # run the following to scale the deployment:
 kubectl scale --replicas=10 deployment/nginx-deployment
+# deployment.apps/nginx-deployment scaled
 
 # run the following to verify the outcome of scaling the deployment:
 kubectl get pods
+# NAME                               READY   STATUS    RESTARTS   AGE
+# nginx-deployment-ddd976fc7-22ffs   1/1     Running   0          6m30s
+# nginx-deployment-ddd976fc7-d5xvq   1/1     Running   0          18s
+# nginx-deployment-ddd976fc7-dffgp   1/1     Running   0          18s
+# nginx-deployment-ddd976fc7-f7h5m   1/1     Running   0          18s
+# nginx-deployment-ddd976fc7-l9q24   1/1     Running   0          18s
+# nginx-deployment-ddd976fc7-lt6kg   1/1     Running   0          18s
+# nginx-deployment-ddd976fc7-rvg8x   1/1     Running   0          18m
+# nginx-deployment-ddd976fc7-vbxfw   1/1     Running   0          18s
+# nginx-deployment-ddd976fc7-z98ts   1/1     Running   0          18s
+# nginx-deployment-ddd976fc7-zvmdb   1/1     Running   0          18s
 
 # run the following to review the pods distribution across cluster nodes:
 kubectl get pod -o=custom-columns=NODE:.spec.nodeName,POD:.metadata.name
+# NODE                                POD
+# aks-agentpool-17020422-vmss000000   nginx-deployment-ddd976fc7-22ffs
+# aks-agentpool-17020422-vmss000001   nginx-deployment-ddd976fc7-d5xvq
+# aks-agentpool-17020422-vmss000001   nginx-deployment-ddd976fc7-dffgp
+# aks-agentpool-17020422-vmss000000   nginx-deployment-ddd976fc7-f7h5m
+# aks-agentpool-17020422-vmss000001   nginx-deployment-ddd976fc7-l9q24
+# aks-agentpool-17020422-vmss000000   nginx-deployment-ddd976fc7-lt6kg
+# aks-agentpool-17020422-vmss000000   nginx-deployment-ddd976fc7-rvg8x
+# aks-agentpool-17020422-vmss000001   nginx-deployment-ddd976fc7-vbxfw
+# aks-agentpool-17020422-vmss000001   nginx-deployment-ddd976fc7-z98ts
+# aks-agentpool-17020422-vmss000001   nginx-deployment-ddd976fc7-zvmdb
 
 # run the following to delete the deployment:
 kubectl delete deployment nginx-deployment
