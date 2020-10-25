@@ -23,8 +23,54 @@ kubectl expose deployment nginx-deployment --port=80 --type=LoadBalancer
 # run the following to identify whether a public IP address has been provisioned:
 kubectl get service
 
+# Re-run the command until the value in the EXTERNAL-IP column for the nginx-deployment entry changes from <pending> to a public IP address. 
+# Note the public IP address in the EXTERNAL-IP column for nginx-deployment.
+# romulo@Azure:~$ kubectl get service
+# NAME               TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)        AGE
+# kubernetes         ClusterIP      10.0.0.1      <none>          443/TCP        17m
+# nginx-deployment   LoadBalancer   10.0.197.35   52.226.41.242   80:31518/TCP   6m55s
 
+# Open a browser window and navigate to the IP address you obtained in the previous step. 
+# Verify that the browser page displays the Welcome to nginx! message.
 
+# http://52.226.41.242/ - Beleza it is working!
+# Welcome to nginx!
+# If you see this page, the nginx web server is successfully installed and working. Further configuration is required.
+# For online documentation and support please refer to nginx.org.
+# Commercial support is available at nginx.com.
+# Thank you for using nginx.
 
+########## Task 4: Scale containerized workloads in the Azure Kubernetes service cluster
 
+# In this task, you will scale horizontally the number of pods and then number of cluster nodes.
+# From the Cloud Shell pane, run the following to scale the deployment by increasing of the number of pods to 2:
+ kubectl scale --replicas=2 deployment/nginx-deployment
+
+# run the following to verify the outcome of scaling the deployment:
+kubectl get pods
+# romulo@Azure:~$  kubectl get pods
+# NAME                               READY   STATUS    RESTARTS   AGE
+# nginx-deployment-ddd976fc7-22ffs   1/1     Running   0          28s
+# nginx-deployment-ddd976fc7-rvg8x   1/1     Running   0          12m
+
+# run the following to scale out the cluster by increasing the number of nodes to 2:
+az aks scale --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER --node-count 2
+
+# run the following to verify the outcome of scaling the cluster:
+kubectl get nodes
+# NAME                                STATUS   ROLES   AGE   VERSION
+# aks-agentpool-17020422-vmss000000   Ready    agent   23m   v1.17.11
+# aks-agentpool-17020422-vmss000001   Ready    agent   92s   v1.17.11
+
+# run the following to scale the deployment:
+kubectl scale --replicas=10 deployment/nginx-deployment
+
+# run the following to verify the outcome of scaling the deployment:
+kubectl get pods
+
+# run the following to review the pods distribution across cluster nodes:
+kubectl get pod -o=custom-columns=NODE:.spec.nodeName,POD:.metadata.name
+
+# run the following to delete the deployment:
+kubectl delete deployment nginx-deployment
 
