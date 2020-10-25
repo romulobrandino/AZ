@@ -15,6 +15,9 @@ location1="eastus"
 Subnet1Vnet1="GatewaySubnet"
 Subnet1Vnet1AddressSpace="10.10.0.0/27"
 
+# Run az configure to set the default location you want to use.
+az configure --defaults location=eastus
+
 
 location2="westus"
 
