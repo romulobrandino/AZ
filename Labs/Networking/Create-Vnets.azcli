@@ -1,8 +1,8 @@
-ResourceGroup           = v-romubr
-Location1               = eastus 
-VnetName1               = Vnet-EastUS
-AddressSpace            = 172.16.0.0/16 
-SubnetName1             = GatewaySubnet
+RG='v-romubr'
+location1='eastus' 
+vnetName1='Vnet-EastUS'
+AddressSpace1='172.16.0.0/16' 
+SubnetName1='GatewaySubnet'
 Subnet1 address-prefix  = 172.16.1.0/27
 SubnetName2             = FrontEnd
 Subnet1 address-prefix  = 172.16.1.0/24
@@ -12,10 +12,10 @@ SubnetName2             = AzureBastionSubnet
 Subnet1 address-prefix  = 172.16.100.0/27
 
 # Vnet 01
-az network vnet create -n Vnet-EastUS -g v-romubr -l eastus --address-prefix 172.16.0.0/16 --subnet-name GatewaySubnet --subnet-prefix 172.16.0.0/27
+az network vnet create -n $location1 -g $RG -l $location1 --address-prefix 172.16.0.0/16 --subnet-name GatewaySubnet --subnet-prefix 172.16.0.0/27
 
 # Add a subnets
-az network vnet subnet create --vnet-name Vnet-EastUS -g v-romubr -n Frontend --address-prefix 172.16.1.0/24
-az network vnet subnet create --vnet-name Vnet-EastUS -g v-romubr -n BackEnd --address-prefix 172.16.2.0/24 
-az network vnet subnet create --vnet-name Vnet-EastUS -g v-romubr -n AzureBastionSubnet --address-prefix 172.16.100.0/27
+az network vnet subnet create --vnet-name $location1 -g $RG -n Frontend --address-prefix 172.16.1.0/24
+az network vnet subnet create --vnet-name $location1 -g $RG -n BackEnd --address-prefix 172.16.2.0/24 
+az network vnet subnet create --vnet-name $location1 -g $RG -n AzureBastionSubnet --address-prefix 172.16.100.0/27
 
