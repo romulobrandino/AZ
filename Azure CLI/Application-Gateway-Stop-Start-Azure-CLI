@@ -1,0 +1,19 @@
+###### Application-Gateway-Stop-Start-Azure-CLI ######
+
+# Azure Login in Azure CLI
+az login
+
+# Sign in with credentials on the command line
+az login -u <username> -p <password>
+
+# Get a list of application gateways
+az network application-gateway list -o table
+
+# Stop-AzApplicationGateway
+az network application-gateway stop -g MyResourceGroup -n MyAppGateway
+
+# Start-AzApplicationGateway
+az network application-gateway start -g MyResourceGroup -n MyAppGateway
+
+# Get a specified application gateway
+az network application-gateway show -g MyResourceGroup -n MyAppGateway
