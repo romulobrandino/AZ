@@ -1,5 +1,13 @@
 # Azure CLI commands
 
+Install Azure CLI - [How to install the Azure CLI ](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+
+Login 
+
+```Bash
+az login
+```
+
 List account --output could be in Json, Yaml, table...
 
 ```Bash
