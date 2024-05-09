@@ -21,7 +21,13 @@ Get-AzSubscription -TenantId (Get-AzContext).Tenant
 Get-AzSubscription -SubscriptionId "xxxx-xxxx-xxxx-xxxx" -TenantId "yyyy-yyyy-yyyy-yyyy" | Set-AzContext
 ```
 
-## Change the active subscription
+
+
+## Connect Azure Subscription
+```PowerShell
+Connect-AzAccount
+```
+
 ## Change the active subscription
 ```PowerShell
 Set-AzContext -Subscription <subscription name or id>
