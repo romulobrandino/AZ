@@ -1,5 +1,12 @@
 # PowerShell Commands
 
+## Connect Azure Subscription
+```PowerShell
+Connect-AzAccount
+Connect-AzAccount -Tenant 'Tenant_ID'
+Connect-AzAccount -Tenant 'xxxx-xxxx-xxxx-xxxx' -SubscriptionId 'yyyy-yyyy-yyyy-yyyy'
+```
+
 ## Get all subscriptions in all tenants
 ```PowerShell
 Get-AzSubscription
@@ -8,7 +15,6 @@ Get-AzSubscription
 ## Get all subscriptions for a specific tenant
 ```PowerShell
 Get-AzSubscription -TenantId "aaaa-aaaa-aaaa-aaaa"
-Get-AzSubscription -Subscription 'Subscriptiion-name'
 ```
 
 ## Get all subscriptions in the current tenant
@@ -19,13 +25,7 @@ Get-AzSubscription -TenantId (Get-AzContext).Tenant
 ## Change the current context to use a specific subscription
 ```PowerShell
 Get-AzSubscription -SubscriptionId "xxxx-xxxx-xxxx-xxxx" -TenantId "yyyy-yyyy-yyyy-yyyy" | Set-AzContext
-```
-
-
-
-## Connect Azure Subscription
-```PowerShell
-Connect-AzAccount
+Get-AzSubscription -Subscription 'Subscription-name'
 ```
 
 ## Change the active subscription
@@ -34,6 +34,18 @@ Set-AzContext -Subscription <subscription name or id>
 Set-AzContext -Subscription "xxxx-xxxx-xxxx-xxxx"
 Set-AzContext -Subscription "subscription name"
 ```
+
+#get all subscriptions in the current tenant that are authorized for the current user
+```PowerShell
+Get-AzSubscription -TenantId (Get-AzContext).Tenant
+```
+#get the specified subscription, and then sets the current context to use it.
+```PowerShell
+Get-AzSubscription -SubscriptionId "xxxx-xxxx-xxxx-xxxx" -TenantId "yyyy-yyyy-yyyy-yyyy" | Set-AzContext
+```
+
+
+# NetworkingCommands
 
 ## Test-Connection
 Sends ICMP echo request packets, or pings, to one or more computers. 
