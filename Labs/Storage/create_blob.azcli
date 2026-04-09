@@ -1,0 +1,63 @@
+# Exercise - View replication status
+
+# Set the resource group name
+RESOURCEGROUP=v-romubr
+
+# Run the following command to set the storage account name where you replace storageaccountname and the brackets with a unique Azure Storage account name
+export AZURE_STORAGE_ACCOUNT=<storageaccountname>
+
+# Set the location. Replace the westus2 value with a location near you.
+export LOCATION=eastus
+
+# Run the following command to create a resource group.
+az group create --name $RESOURCEGROUP --location $LOCATION
+
+# Run the following command to create a storage account:
+az storage account create \
+--name $AZURE_STORAGE_ACCOUNT \
+--resource-group $RESOURCEGROUP \
+--location $LOCATION \
+--sku Standard_GZRS \
+--encryption-services blob \
+--kind StorageV2
+
+# For the rest of the steps in this exercise, you'll need your storage credentials. Run the following command to list your storage account keys:
+az storage account keys list \
+--account-name $AZURE_STORAGE_ACCOUNT \
+--resource-group $RESOURCEGROUP \
+--output table
+
+# Copy the keys listed.
+# Set an environment variable to hold your storage key. Replace account-key and the brackets with one of your key values.
+export AZURE_STORAGE_KEY="<account-key>"
+
+# Create a blob container
+
+# Run the following command to set a container name where you replace blob-container-name and the brackets with another name. 
+export BLOB_CONTAINER_NAME=<blob-container-name>
+
+# Run the following command to set a container name where you replace blob-container-name and the brackets with another name.
+az storage container create --name $BLOB_CONTAINER_NAME
+
+# Create a file (blob)
+cat > song.mp3
+# Run the following command to see the contents of your song.mp3 file:
+cat song.mp3
+
+# Upload your file
+# Run the following command to upload your file:
+az storage blob upload \
+    --container-name $BLOB_CONTAINER_NAME \
+    --name song \
+    --file song.mp3
+
+# When the upload is complete, you verify the file is in your storage account by running the following command:
+az storage blob list \
+--container-name $BLOB_CONTAINER_NAME  \
+--output table
+
+
+
+
+
+

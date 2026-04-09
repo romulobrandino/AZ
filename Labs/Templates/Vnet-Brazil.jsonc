@@ -1,0 +1,53 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "resources": [
+        {
+            "name": "Brazil-Vnet",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "brazilsouth",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [],
+            "tags": {
+                "displayName": "Brazil-Vnet"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('Brazil-VnetPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('Brazil-VnetSubnet1Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('Brazil-VnetSubnet1Prefix')]"
+                        }
+                    },
+                    {
+                        "name": "[variables('Brazil-VnetSubnet2Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('Brazil-VnetSubnet2Prefix')]"
+                        }
+                    },
+					{
+                        "name": "[variables('Brazil-VnetSubnet3Name')]",
+                        "properties": {
+                            "addressPrefix": "[variables('Brazil-VnetSubnet3Prefix')]"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "variables": {
+        "Brazil-VnetPrefix": "172.16.0.0/16",
+		"Brazil-VnetSubnet1Name": "GatewaySubnet",
+        "Brazil-VnetSubnet1Prefix": "172.16.0.0/24",
+        "Brazil-VnetSubnet2Name": "Dev-Bra-subnet-01",
+        "Brazil-VnetSubnet2Prefix": "172.16.1.0/24",
+        "Brazil-VnetSubnet3Name": "Dev-Bra-subnet-02",
+        "Brazil-VnetSubnet3Prefix": "172.16.2.0/24"
+    }
+}
