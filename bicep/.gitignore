@@ -1,0 +1,24 @@
+# Personal/environment-specific parameter files
+*-dcs.bicepparam
+romulosilva-*.bicepparam
+personal*.bicepparam
+
+# Secrets and credentials
+*.secret
+*.key
+*.pfx
+*.pem
+
+# Azure CLI cache
+.azure/
+
+# PowerShell logs
+*.log
+
+# Terraform state (if mixed approach)
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# VS Code workspace settings
+.vscode/settings.json
