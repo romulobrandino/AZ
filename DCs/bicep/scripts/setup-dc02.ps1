@@ -34,6 +34,32 @@ if (-not (Test-Path 'C:\Tools')) {
     Write-Output "C:\Tools folder already exists"
 }
 
+# Download Azure CLI
+Write-Output ""
+Write-Output "Downloading Azure CLI..."
+$azCliFolder = 'C:\Tools\azcli'
+if (-not (Test-Path $azCliFolder)) {
+    New-Item -Path $azCliFolder -ItemType Directory -Force | Out-Null
+    Write-Output "Created $azCliFolder folder"
+}
+
+$azCliUrl = 'https://aka.ms/installazurecliwindows'
+$azCliPath = Join-Path $azCliFolder 'AzureCLI.msi'
+
+try {
+    if (-not (Test-Path $azCliPath)) {
+        Write-Output "Downloading Azure CLI from $azCliUrl..."
+        Invoke-WebRequest -Uri $azCliUrl -OutFile $azCliPath -UseBasicParsing
+        $fileSize = [math]::Round((Get-Item $azCliPath).Length / 1MB, 2)
+        Write-Output "SUCCESS: Azure CLI downloaded ($fileSize MB) to $azCliPath"
+    } else {
+        Write-Output "Azure CLI installer already exists at $azCliPath"
+    }
+} catch {
+    Write-Output "WARNING: Failed to download Azure CLI: $($_.Exception.Message)"
+    Write-Output "Continuing with AD setup..."
+}
+
 # Initialize and format the data disk (F:)
 Write-Output ""
 Write-Output "Initializing data disk..."
