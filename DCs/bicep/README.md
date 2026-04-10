@@ -1,20 +1,48 @@
-# Azure Domain Controllers Deployment - Bicep
+# Azure Domain Controllers Deployment - Two-Phase Bicep Approach
 
-Deploy two Windows Server 2025 domain controllers in Azure using Bicep templates.
+Deploy two Windows Server 2025 domain controllers in Azure using a **two-phase Bicep deployment** to properly handle DNS configuration.
+
+## 🔄 NEW: Two-Phase Deployment Workflow
+
+**Why Two Phases?**  
+DC02 needs to resolve the domain name to join it, but the domain doesn't exist until DC01 is promoted. VNet DNS must be updated between deployments.
+
+### Phase 1: Deploy DC01
+1. VNet DNS = Azure default (can reach GitHub) ✅
+2. Deploy `main-dc01.bicep` → NSG + DC01 VM
+3. DC01 downloads scripts from GitHub ✅
+4. DC01 creates forest (~10-15 min) ✅
+
+### Phase 2: Deploy DC02
+5. Wait for DC01 to be operational ✅
+6. **Update VNet DNS → Points to DC01 (10.111.1.10)** 🔄
+7. Deploy `main-dc02.bicep` → DC02 VM
+8. DC02 can now resolve domain ✅
+9. DC02 joins domain + promotes as replica DC (~15-20 min) ✅
+10. Update VNet DNS → Both DCs (10.111.1.10, 10.111.1.11) ✅
+
+### Quick Start
+
+```powershell
+cd C:\Tools\AZ\DCs\bicep
+.\deploy-simple.ps1  # Handles both phases automatically
+```
 
 ## Repository Structure
 
 ```
 bicep/
-├── 📄 main.bicep                    ← Main template (PUBLISH TO GITHUB)
+├── 📄 main-dc01.bicep               ← Phase 1: DC01 only (PUBLISH) ✅
+├── 📄 main-dc02.bicep               ← Phase 2: DC02 only (PUBLISH) ✅
+├── 📄 main.bicep                    ← Legacy single deployment (deprecated)
 ├── 📄 main.bicepparam               ← Generic parameters (PUBLISH TO GITHUB)
 ├── 🔒 romulosilva-dcs.bicepparam    ← Your personal config (KEEP LOCAL)
-├── 📜 deploy-simple.ps1             ← Deployment script (PUBLISH TO GITHUB)
+├── 📜 deploy-simple.ps1             ← Two-phase orchestration (PUBLISH) ✅
 ├── 📁 modules/                      ← Bicep modules (PUBLISH TO GITHUB)
 │   ├── nsg.bicep
 │   ├── dc01.bicep
 │   └── dc02.bicep
-└── 📁 scripts/                      ← PowerShell scripts (PUBLISH TO GITHUB)
+└── 📁 scripts/                      ← PowerShell scripts (PUBLISH) ✅
     ├── setup-dc01.ps1
     └── setup-dc02.ps1
 ```
