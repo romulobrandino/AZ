@@ -117,12 +117,27 @@ az network vnet update `
 
 Write-Host "  ✓ VNet DNS now points to DC01 ($dc01IP)" -ForegroundColor Green
 
+# ── Step 4b: Restart DC02 to Pick Up New DNS ─────────────────────────────────
+
+Write-Host ""
+Write-Host "[4b/6] Restarting DC02 to apply new DNS settings..." -ForegroundColor Yellow
+
+$vm2Name = "vm-DC02-cus"
+try {
+    # Check if DC02 exists and restart it
+    az vm restart --resource-group $ResourceGroup --name $vm2Name --no-wait --output none 2>$null
+    Write-Host "  ✓ DC02 restart initiated (will get new DNS from DHCP)" -ForegroundColor Green
+    Start-Sleep -Seconds 60  # Wait for restart to begin
+} catch {
+    Write-Host "  ⚠ DC02 not found or already restarting" -ForegroundColor Gray
+}
+
 # ── Step 5: Wait for DC02 and Update VNet DNS ─────────────────────────────────
 
 Write-Host ""
 Write-Host "[5/6] Waiting for DC02 to complete promotion (~10-15 minutes)..." -ForegroundColor Yellow
 
-Start-Sleep -Seconds 600  # 10 minutes
+Start-Sleep -Seconds 900  # 15 minutes
 
 Write-Host "  Updating VNet DNS to include both DCs..." -ForegroundColor Gray
 

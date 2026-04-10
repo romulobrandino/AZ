@@ -79,6 +79,39 @@ Write-Output "============================================================"
 # DC01 IP address (from VNet configuration)
 $dc01IP = "10.111.1.10"
 
+# Force DHCP renewal to pick up any VNet DNS changes
+Write-Output ""
+Write-Output "Renewing DHCP lease to get latest DNS settings..."
+try {
+    ipconfig /renew | Out-Null
+    Start-Sleep -Seconds 5
+    $dnsServers = Get-DnsClientServerAddress -AddressFamily IPv4 | Where-Object {$_.InterfaceAlias -notlike "*Loopback*"} | Select-Object -ExpandProperty ServerAddresses
+    Write-Output "Current DNS servers: $($dnsServers -join ', ')"
+} catch {
+    Write-Output "WARNING: Could not renew DHCP: $($_.Exception.Message)"
+}
+
+# First check network connectivity to DC01
+Write-Output ""
+Write-Output "Testing network connectivity to DC01 ($dc01IP)..."
+$pingSuccessful = $false
+for ($i = 1; $i -le 5; $i++) {
+    if (Test-Connection -ComputerName $dc01IP -Count 2 -Quiet) {
+        $pingSuccessful = $true
+        Write-Output "SUCCESS: DC01 is reachable on the network"
+        break
+    } else {
+        Write-Output "  Attempt $i/5: Cannot ping DC01, waiting..."
+        Start-Sleep -Seconds 10
+    }
+}
+
+if (-not $pingSuccessful) {
+    Write-Output "ERROR: Cannot reach DC01 at $dc01IP"
+    Write-Output "Check network configuration and NSG rules"
+    exit 1
+}
+
 $maxRetries = 40  # 40 retries * 30 seconds = 20 minutes max wait
 $retryCount = 0
 $dc01Ready = $false
