@@ -55,15 +55,7 @@ param githubBranch string = 'master'
 param githubRepo string = 'AZ'
 
 @description('Resource tags applied to all resources')
-param resourceTags object = {
-  Contact: 'romulosilva@microsoft.com'
-  Dept: 'Sales'
-  Division: 'InfraCore'
-  Environment: 'Demo'
-  Application: 'ActiveDirectory'
-  Purpose: 'Demo'
-  NoAutoShutdown: 'true'
-}
+param resourceTags object = {}
 
 // ── Variables ─────────────────────────────────────────────────────────────────
 

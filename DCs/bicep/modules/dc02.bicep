@@ -1,4 +1,4 @@
-// DC02 — NIC + VM (Windows Server 2025, TrustedLaunch) + 32 GB data disk inline
+// DC02 — NIC + Data Disk + VM (Windows Server 2025, TrustedLaunch)
 // + CustomScriptExtension that runs setup-dc02.ps1 server-side.
 //
 // setup-dc02.ps1 phase 0: disk init + ADDS install + poll for DC01 DNS + domain join.
@@ -45,6 +45,23 @@ resource nic 'Microsoft.Network/networkInterfaces@2024-05-01' = {
   }
 }
 
+// ── Data Disk for NTDS/SYSVOL ─────────────────────────────────────────────────
+
+resource dataDisk 'Microsoft.Compute/disks@2024-03-02' = {
+  name: diskName
+  location: location
+  tags: tags
+  sku: {
+    name: 'Standard_LRS'
+  }
+  properties: {
+    creationData: {
+      createOption: 'Empty'
+    }
+    diskSizeGB: 32
+  }
+}
+
 // ── VM ────────────────────────────────────────────────────────────────────────
 
 resource vm 'Microsoft.Compute/virtualMachines@2024-07-01' = {
@@ -71,15 +88,14 @@ resource vm 'Microsoft.Compute/virtualMachines@2024-07-01' = {
         sku: '2025-datacenter-azure-edition'
         version: 'latest'
       }
+      // Attach the separate data disk created above (allows proper tagging)
       dataDisks: [
         {
-          name: diskName
           lun: 0
-          createOption: 'Empty'
-          diskSizeGB: 32
+          createOption: 'Attach'
           caching: 'None'
           managedDisk: {
-            storageAccountType: 'Standard_LRS'
+            id: dataDisk.id
           }
         }
       ]
