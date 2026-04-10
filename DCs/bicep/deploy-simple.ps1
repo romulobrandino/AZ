@@ -44,30 +44,30 @@ az network vnet update `
 
 Write-Host "  ✓ VNet DNS reset to Azure-provided" -ForegroundColor Green
 
-# ── Step 2: Deploy Bicep Template ────────────────────────────────────────────
+# ── Step 2: Deploy PHASE 1 - DC01 Only ────────────────────────────────────────
 
 Write-Host ""
-Write-Host "[2/6] Deploying Bicep template..." -ForegroundColor Yellow
-Write-Host "  This will take 15-25 minutes (VM creation + AD forest setup)" -ForegroundColor Gray
+Write-Host "[2/8] Deploying PHASE 1: DC01 (NSG + VM + Extension)..." -ForegroundColor Yellow
+Write-Host "  This will take 10-15 minutes (VM creation + AD forest setup)" -ForegroundColor Gray
 Write-Host "  Scripts will be downloaded from your GitHub repo" -ForegroundColor Gray
 
-$deploymentName = "dc-deployment-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+$deployment1Name = "dc01-deployment-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
 
 az deployment group create `
     --resource-group $ResourceGroup `
-    --name $deploymentName `
-    --template-file "$PSScriptRoot\main.bicep" `
+    --name $deployment1Name `
+    --template-file "$PSScriptRoot\main-dc01.bicep" `
     --parameters "$PSScriptRoot\main.bicepparam" `
     --parameters "$PSScriptRoot\$ParametersFile" `
     --output table
 
 Write-Host ""
-Write-Host "  ✓ Bicep deployment completed" -ForegroundColor Green
+Write-Host "  ✓ Phase 1 deployment completed (DC01 VM created)" -ForegroundColor Green
 
 # ── Step 3: Wait for DC01 to Become Ready ─────────────────────────────────────
 
 Write-Host ""
-Write-Host "[3/6] Waiting for DC01 to complete forest creation..." -ForegroundColor Yellow
+Write-Host "[3/8] Waiting for DC01 to complete forest creation..." -ForegroundColor Yellow
 Write-Host "  Checking every 45 seconds (max 20 minutes)..." -ForegroundColor Gray
 
 $vm1Name = "vm-DC01-cus"
@@ -106,7 +106,7 @@ if (-not $dc1Ready) {
 # ── Step 4: Update VNet DNS to DC01 ───────────────────────────────────────────
 
 Write-Host ""
-Write-Host "[4/6] Updating VNet DNS to point to DC01..." -ForegroundColor Yellow
+Write-Host "[4/8] Updating VNet DNS to point to DC01..." -ForegroundColor Yellow
 
 $dc01IP = "10.111.1.10"
 az network vnet update `
@@ -117,29 +117,27 @@ az network vnet update `
 
 Write-Host "  ✓ VNet DNS now points to DC01 ($dc01IP)" -ForegroundColor Green
 
-# ── Step 4b: Restart DC02 to Pick Up New DNS ─────────────────────────────────
+# ── Step 5: Deploy PHASE 2 - DC02 ─────────────────────────────────────────────
 
 Write-Host ""
-Write-Host "[4b/6] Restarting DC02 to apply new DNS settings..." -ForegroundColor Yellow
+Write-Host "[5/8] Deploying PHASE 2: DC02 (VM + Extension)..." -ForegroundColor Yellow
+Write-Host "  VNet DNS is now pointing to DC01, so DC02 can resolve the domain" -ForegroundColor Gray
+Write-Host "  This will take 15-20 minutes (domain join + DC promotion)" -ForegroundColor Gray
 
-$vm2Name = "vm-DC02-cus"
-try {
-    # Check if DC02 exists and restart it
-    az vm restart --resource-group $ResourceGroup --name $vm2Name --no-wait --output none 2>$null
-    Write-Host "  ✓ DC02 restart initiated (will get new DNS from DHCP)" -ForegroundColor Green
-    Start-Sleep -Seconds 60  # Wait for restart to begin
-} catch {
-    Write-Host "  ⚠ DC02 not found or already restarting" -ForegroundColor Gray
-}
+$deployment2Name = "dc02-deployment-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
 
-# ── Step 5: Wait for DC02 and Update VNet DNS ─────────────────────────────────
+az deployment group create `
+    --resource-group $ResourceGroup `
+    --name $deployment2Name `
+    --template-file "$PSScriptRoot\main-dc02.bicep" `
+    --parameters "$PSScriptRoot\main.bicepparam" `
+    --parameters "$PSScriptRoot\$ParametersFile" `
+    --output table
 
 Write-Host ""
-Write-Host "[5/6] Waiting for DC02 to complete promotion (~10-15 minutes)..." -ForegroundColor Yellow
+Write-Host "  ✓ Phase 2 deployment completed (DC02 promoted)" -ForegroundColor Green
 
-Start-Sleep -Seconds 900  # 15 minutes
-
-Write-Host "  Updating VNet DNS to include both DCs..." -ForegroundColor Gray
+# ── Step 6: Update VNet DNS to Both DCs ───────────────────────────────────────
 
 $dc02IP = "10.111.1.11"
 az network vnet update `
@@ -148,9 +146,12 @@ az network vnet update `
     --dns-servers $dc01IP $dc02IP `
     --output none
 
-Write-Host "  ✓ VNet DNS now points to both domain controllers" -ForegroundColor Green
+Write-Host "  ✓ VNet DNS now points to both DCs ($dc01IP, $dc02IP)" -ForegroundColor Green
 
-# ── Step 6: Associate NSG with Subnet ────────────────────────────────────────
+# ── Step 7: Associate NSG with Subnet ────────────────────────────────────────
+
+Write-Host ""
+Write-Host "[7/8ociate NSG with Subnet ────────────────────────────────────────
 
 Write-Host ""
 Write-Host "[6/6] Associating NSG with DC subnet..." -ForegroundColor Yellow
@@ -166,11 +167,20 @@ az network vnet subnet update `
     --output none
 
 Write-Host "  ✓ NSG associated with subnet" -ForegroundColor Green
+Step 8: Final Verification ───────────────────────────────────────────────
+
+Write-Host ""
+Write-Host "[8/8] Verifying deployment..." -ForegroundColor Yellow
+Write-Host "  This may take a moment..." -ForegroundColor Gray
+
+# Give DC02 a moment to stabilize after deployment
+Start-Sleep -Seconds 30
 
 # ── Deployment Complete ───────────────────────────────────────────────────────
 
 Write-Host ""
 Write-Host "==========================================" -ForegroundColor Green
+Write-Host "TWO-PHASE ==========================================" -ForegroundColor Green
 Write-Host "DEPLOYMENT COMPLETE!" -ForegroundColor Green
 Write-Host "==========================================" -ForegroundColor Green
 Write-Host "Domain: corp.cloudthings-app.com" -ForegroundColor Yellow
