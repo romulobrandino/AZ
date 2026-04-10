@@ -62,6 +62,7 @@ param resourceTags object = {
   Environment: 'Demo'
   Application: 'ActiveDirectory'
   Purpose: 'Demo'
+  NoAutoShutdown: 'true'
 }
 
 // ── Variables ─────────────────────────────────────────────────────────────────
