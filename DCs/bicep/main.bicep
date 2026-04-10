@@ -61,7 +61,7 @@ param primaryAdmin string = 'romulosilva'
 param githubAccount string = 'romulobrandino'
 
 @description('GitHub branch for script repository')
-param githubBranch string = 'main'
+param githubBranch string = 'master'
 
 @description('GitHub repository name')
 param githubRepo string = 'AZ'
@@ -78,7 +78,7 @@ param resourceTags object = {
 
 // ── Variables ─────────────────────────────────────────────────────────────────
 
-var scriptsBaseUrl = 'https://raw.githubusercontent.com/${githubAccount}/${githubRepo}/${githubBranch}/dcs-auto/bicep/scripts'
+var scriptsBaseUrl = 'https://raw.githubusercontent.com/${githubAccount}/${githubRepo}/${githubBranch}/DCs/bicep/scripts'
 
 // ── Existing subnet (cross-RG reference, used to get subnet ID) ────────────────
 
@@ -117,7 +117,6 @@ module dc01 'modules/dc01.bicep' = {
     domainName: domainName
     primaryAdmin: primaryAdmin
     scriptsBaseUrl: scriptsBaseUrl
-    scriptsSasToken: scriptsSasToken
     tags: resourceTags
   }
   dependsOn: [
