@@ -1,7 +1,7 @@
 # Exercise - View replication status
 
 # Set the resource group name
-RESOURCEGROUP=v-romubr
+RESOURCEGROUP=myRG
 
 # Run the following command to set the storage account name where you replace storageaccountname and the brackets with a unique Azure Storage account name
 export AZURE_STORAGE_ACCOUNT=<storageaccountname>

@@ -7,7 +7,7 @@ INCOMPLETE
 
 # Set the variables
 # Resource group
-rgName="v-romubr"
+rgName="myRG"
 # Virtual Network 1
 vNet1="Vnet-East-US"
 vNet1AddressSpace="10.10.0.0/16"

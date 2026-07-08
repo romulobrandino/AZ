@@ -12,7 +12,7 @@ Select-AzSubscription -SubscriptionName $Sub1
 # Modify the variables, and then copy and paste into your PowerShell console.
 
 # $Sub1 = "Ross"
-$RG1 = "v-romubr"
+$RG1 = "myRG1"
 $Location1 = "West US"
 $VNetName1 = "Vnet1"
 $FESubName1 = "FrontEnd"
@@ -67,22 +67,22 @@ $vnet1gw = Get-AzVirtualNetworkGateway -Name $GWName1 -ResourceGroupName $RG1
 
 # Get the PIP GW
 $gw1pip1.IpAddress
-# PS /home/romulo> $gw1pip1.IpAddress
+# PS /home/user> $gw1pip1.IpAddress
 # 52.188.171.7
 
 $gw1pip2.IpAddress
-# PS /home/romulo> $gw1pip2.IpAddress
+# PS /home/user> $gw1pip2.IpAddress
 # 52.188.171.15
 
 $vnet1gw.BgpSettingsText 
-PS /home/romulo> $vnet1gw.BgpSettingsText
+PS /home/user> $vnet1gw.BgpSettingsText
 {
   "Asn": 65010,
   "BgpPeeringAddress": "10.12.255.4,10.12.255.5",
   "PeerWeight": 0,
   "BgpPeeringAddresses": [
     {
-      "IpconfigurationId": "/subscriptions/xyz/resourceGroups/v-romubr/providers/Microsoft.Network/virtualNetworkGateways/VNet1GW/ipConfigurations/gw1ipconf1",
+      "IpconfigurationId": "/subscriptions/xyz/resourceGroups/myRG1/providers/Microsoft.Network/virtualNetworkGateways/VNet1GW/ipConfigurations/gw1ipconf1",
       "DefaultBgpIpAddresses": [
         "10.12.255.4"
       ],
@@ -92,7 +92,7 @@ PS /home/romulo> $vnet1gw.BgpSettingsText
       ]
     },
     {
-      "IpconfigurationId": "/subscriptions/xyz/resourceGroups/v-romubr/providers/Microsoft.Network/virtualNetworkGateways/VNet1GW/ipConfigurations/gw1ipconf2",
+      "IpconfigurationId": "/subscriptions/xyz/resourceGroups/myRG1/providers/Microsoft.Network/virtualNetworkGateways/VNet1GW/ipConfigurations/gw1ipconf2",
       "DefaultBgpIpAddresses": [
         "10.12.255.5"
       ],
@@ -110,7 +110,7 @@ PS /home/romulo> $vnet1gw.BgpSettingsText
 
 # 1. Declare your variables
 
-$RG5 = "v-romubr"
+$RG5 = "myRG5"
 $Location5 = "West US"
 $LNGName51 = "Site5_1"
 $LNGPrefix51 = "10.52.255.253/32"
@@ -152,7 +152,7 @@ New-AzVirtualNetworkGatewayConnection -Name $Connection152 -ResourceGroupName $R
 
 # 1. Declare your variables
 
-$RG2 = "v-romubr"
+$RG2 = "myRG2"
 $Location2 = "East US"
 $VNetName2 = "TestVNet2"
 $FESubName2 = "FrontEnd"

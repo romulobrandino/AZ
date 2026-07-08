@@ -25,7 +25,7 @@ kubectl get service
 
 # Re-run the command until the value in the EXTERNAL-IP column for the nginx-deployment entry changes from <pending> to a public IP address. 
 # Note the public IP address in the EXTERNAL-IP column for nginx-deployment.
-# romulo@Azure:~$ kubectl get service
+# user@Azure:~$ kubectl get service
 # NAME               TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)        AGE
 # kubernetes         ClusterIP      10.0.0.1      <none>          443/TCP        17m
 # nginx-deployment   LoadBalancer   10.0.197.35   52.226.41.242   80:31518/TCP   6m55s
@@ -48,7 +48,7 @@ kubectl get service
 
 # run the following to verify the outcome of scaling the deployment:
 kubectl get pods
-# romulo@Azure:~$  kubectl get pods
+# user@Azure:~$  kubectl get pods
 # NAME                               READY   STATUS    RESTARTS   AGE
 # nginx-deployment-ddd976fc7-22ffs   1/1     Running   0          28s
 # nginx-deployment-ddd976fc7-rvg8x   1/1     Running   0          12m

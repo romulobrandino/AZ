@@ -1,4 +1,4 @@
-RG='v-romubr'
+RG='myRG'
 location1='eastus' 
 vnetName1='Vnet-EastUS'
 AddressSpace1='172.16.0.0/16' 

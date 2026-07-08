@@ -27,7 +27,7 @@ az account set --subscription "My Demos"
 **Create VM**
 1. Linux Ubuntu
 ```Bash
-az vm create --subscription "My Demos" --resource-group v-romubr --name NewVM --image Ubuntu
+az vm create --subscription "My Demos" --resource-group myRG --name NewVM --image Ubuntu
 ```
 2. Windows Server 2025
 ```Bash
