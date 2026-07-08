@@ -111,9 +111,12 @@ resource vm 'Microsoft.Compute/virtualMachines@2024-07-01' = {
       adminUsername: 'azureuser'
       adminPassword: adminPassword
       windowsConfiguration: {
-        enableAutomaticUpdates: false
+        enableAutomaticUpdates: true
         patchSettings: {
           patchMode: 'AutomaticByPlatform'
+          automaticByPlatformSettings: {
+            bypassPlatformSafetyChecksOnUserSchedule: false
+          }
         }
       }
     }

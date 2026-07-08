@@ -59,6 +59,13 @@ param location = '<your-azure-region>'  // Example: 'eastus', 'westus2', 'centra
 param resourceTags = {
   Environment: 'Production'          // Example: 'Production', 'Development', 'Test'
   Application: 'ActiveDirectory'
+  Purpose: 'DomainController'
   Owner: '<your-email>'              // Example: 'admin@contoso.com'
   CostCenter: '<your-cost-center>'   // Example: 'IT-Infrastructure'
+  AutoShutdownSchedule: 'Disabled'   // Recognized by Azure auto-shutdown services
+  SkipAutoShutdown: 'true'           // Backup tag for runbooks/policies
+  AlwaysOn: 'true'                   // Additional protection flag
+  ExcludeFromAutomation: 'true'      // Exclude from MCAPSGov automation
+  CriticalWorkload: 'true'           // Marks as critical infrastructure
+  BusinessHours: '24x7'              // 24/7 operation requirement
 }
