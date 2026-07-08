@@ -29,12 +29,12 @@ az account set --subscription "My Demos"
 ```Bash
 az vm create --subscription "My Demos" --resource-group v-romubr --name NewVM --image Ubuntu
 ```
-2. Windows Server 2016
+2. Windows Server 2025
 ```Bash
 az vm create \
-    --resource-group v-romubr \
+    --resource-group "myRG" \
     --name myVM \
-    --image win2016datacenter \
+    --image win2025datacenter \
     --admin-username azureuser
 ```
 
