@@ -1,5 +1,29 @@
 # Azure personal notes and commands
 
+This is a personal repository for Azure references, CLI commands, PowerShell commands,
+documentation links, courses, etc., for my personal use.
+
+## 🚀 Getting Started
+
+New to a tenant/subscription? Start here: **[01-getting-started/README.md](01-getting-started/README.md)**
+
+That guide walks through, in order:
+1. **Prerequisites** — PowerShell 7, Azure PowerShell (Az) module, and Azure CLI (install/version checks, `winget`).
+2. **Sign in to Azure** — `Connect-AzAccount` and `az login`.
+3. **List and select the subscription** — `Get-AzSubscription` / `az account set`.
+4. **[Register Azure Resource Providers](01-getting-started/register-resource-providers.md)** — required before creating any resources (VNets, VMs, Storage, AKS, etc.); ~48 providers across 9 categories, individually or in bulk.
+5. **Recommended first steps** — resource group, tags, policy/budgets.
+6. **[Microsoft admin portals reference](01-getting-started/admin-portals-reference.md)** — the 12 admin centers you'll likely need (Azure Portal, Entra, M365, Defender, Purview, Foundry, Copilot Studio, Teams, SharePoint, Exchange, Intune, Power Platform).
+
+## Repository structure
+
+| Folder | Contents |
+|---|---|
+| [01-getting-started/](01-getting-started/README.md) | 👉 Start here for any new tenant/subscription — see above. |
+| [02-azure-commands/](02-azure-commands/) | Azure CLI/PowerShell install guides, cheat-sheets, [PowerShell module best practices](02-azure-commands/powershell-module-best-practices.md), sample Bicep, and networking command references (e.g. Application Gateway). |
+| [03-labs/](03-labs/README.md) | Hands-on lab scripts organized by topic: `azure-ad/`, `compute/` (incl. domain controllers under `compute/DCs/`), `devops/`, `networking/`, `storage/`, and ARM/Bicep `templates/`. |
+| [04-azure-docs/](04-azure-docs/) | Short reference notes per Azure service area (AI, big data/analytics, compute, database, DevOps, IoT, networking, storage). |
+
 ## Network Topology Architecture
 
 The following diagram illustrates a typical Azure network topology with Application Gateway for web application delivery.
@@ -88,4 +112,3 @@ graph TB
 - **Key Vault**: Secure storage for SSL certificates and secrets
 - **Log Analytics**: Centralized logging and analytics workspace
 
-This is a personal repository for Azure references, CLI commands, PowerShell commands, Documentations links, courses, etc., for my personal use using Azure.
