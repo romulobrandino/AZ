@@ -1,64 +1,101 @@
-# Application Gateway - Stop and Start with Azure CLI
+# Application Gateway Commands
 
 ## Overview
-This guide provides Azure CLI commands to stop and start Azure Application Gateway instances. Stopping an Application Gateway when not in use can help reduce costs.
+This guide provides Azure CLI and PowerShell commands to manage Azure Application Gateway instances — including stopping and starting them. Stopping an Application Gateway when not in use can help reduce costs.
 
 ## Prerequisites
-- Azure CLI installed and configured
+- Azure CLI and/or Azure PowerShell module installed and configured
 - Appropriate permissions to manage Application Gateway resources
 - Active Azure subscription
 
 ## Login to Azure
+
+### Azure CLI
 ```bash
 az login
 az account set --subscription "<subscription-id-or-name>"
+
+# Sign in with credentials on the command line
+az login -u <username> -p <password>
+```
+
+### PowerShell
+```powershell
+Connect-AzAccount
+```
+
+## List Application Gateways
+
+### Azure CLI
+```bash
+# List all Application Gateways in a resource group
+az network application-gateway list \
+  --resource-group <resource-group-name> \
+  --output table
+
+# List all Application Gateways in the subscription
+az network application-gateway list --output table
+```
+
+### PowerShell
+```powershell
+Get-AzApplicationGateway -ResourceGroupName "ResourceGroup01"
 ```
 
 ## Stop Application Gateway
 
-### Stop a specific Application Gateway
+### Azure CLI
 ```bash
 az network application-gateway stop \
   --name <gateway-name> \
   --resource-group <resource-group-name>
 ```
 
-### Example
+Example:
 ```bash
 az network application-gateway stop \
   --name myAppGateway \
   --resource-group myResourceGroup
+```
+
+### PowerShell
+```powershell
+Stop-AzApplicationGateway -ApplicationGateway $AppGw
 ```
 
 ## Start Application Gateway
 
-### Start a specific Application Gateway
+### Azure CLI
 ```bash
 az network application-gateway start \
   --name <gateway-name> \
   --resource-group <resource-group-name>
 ```
 
-### Example
+Example:
 ```bash
 az network application-gateway start \
   --name myAppGateway \
   --resource-group myResourceGroup
 ```
 
+### PowerShell
+```powershell
+Start-AzApplicationGateway -ApplicationGateway $AppGw
+```
+
 ## Check Application Gateway Status
 
-### Show Application Gateway details (including operational state)
+### Azure CLI
 ```bash
+# Show Application Gateway details (including operational state)
 az network application-gateway show \
   --name <gateway-name> \
   --resource-group <resource-group-name> \
   --query "{Name:name, ProvisioningState:provisioningState, OperationalState:operationalState}" \
   --output table
-```
 
-### Check if gateway is running
-```bash
+# Check if gateway is running
 az network application-gateway show \
   --name <gateway-name> \
   --resource-group <resource-group-name> \
@@ -66,24 +103,14 @@ az network application-gateway show \
   --output tsv
 ```
 
-## List All Application Gateways
-
-### List all Application Gateways in a resource group
-```bash
-az network application-gateway list \
-  --resource-group <resource-group-name> \
-  --output table
+### PowerShell
+```powershell
+Get-AzApplicationGateway -Name "ApplicationGateway01" -ResourceGroupName "ResourceGroup01"
 ```
 
-### List all Application Gateways in the subscription
-```bash
-az network application-gateway list \
-  --output table
-```
+## Automation Script Example (Bash)
 
-## Automation Script Example
-
-### Bash script to stop Application Gateway
+### Stop Application Gateway
 ```bash
 #!/bin/bash
 RESOURCE_GROUP="myResourceGroup"
@@ -102,7 +129,7 @@ else
 fi
 ```
 
-### Bash script to start Application Gateway
+### Start Application Gateway
 ```bash
 #!/bin/bash
 RESOURCE_GROUP="myResourceGroup"
@@ -121,17 +148,22 @@ else
 fi
 ```
 
-## Important Notes
+## Related Commands (Azure CLI)
 
-1. **Cost Implications**: Stopping an Application Gateway reduces costs, but you're still charged for the provisioned instance. To eliminate all costs, you must delete the gateway.
+### Delete Application Gateway (to completely stop billing)
+```bash
+az network application-gateway delete \
+  --name <gateway-name> \
+  --resource-group <resource-group-name>
+```
 
-2. **Startup Time**: Starting an Application Gateway can take several minutes (typically 5-10 minutes) as Azure provisions the required resources.
-
-3. **State Persistence**: Configuration and settings are preserved when you stop and start the gateway.
-
-4. **Availability**: While stopped, the Application Gateway will not route traffic. Plan maintenance windows accordingly.
-
-5. **Automation**: Consider using Azure Automation, Logic Apps, or scheduled scripts to automatically stop/start gateways based on usage patterns.
+### Update Application Gateway settings
+```bash
+az network application-gateway update \
+  --name <gateway-name> \
+  --resource-group <resource-group-name> \
+  --set tags.Environment=Production
+```
 
 ## Troubleshooting
 
@@ -157,42 +189,15 @@ az monitor activity-log list \
   --output table
 ```
 
-## Related Commands
+## Important Notes
 
-### Delete Application Gateway (to completely stop billing)
-```bash
-az network application-gateway delete \
-  --name <gateway-name> \
-  --resource-group <resource-group-name>
-```
-
-### Update Application Gateway settings
-```bash
-az network application-gateway update \
-  --name <gateway-name> \
-  --resource-group <resource-group-name> \
-  --set tags.Environment=Production
-```
+1. **Cost Implications**: Stopping an Application Gateway reduces costs, but you're still charged for the provisioned instance. To eliminate all costs, you must delete the gateway.
+2. **Startup Time**: Starting an Application Gateway can take several minutes (typically 5-10 minutes) as Azure provisions the required resources.
+3. **State Persistence**: Configuration and settings are preserved when you stop and start the gateway.
+4. **Availability**: While stopped, the Application Gateway will not route traffic. Plan maintenance windows accordingly.
+5. **Automation**: Consider using Azure Automation, Logic Apps, or scheduled scripts to automatically stop/start gateways based on usage patterns.
 
 ## Additional Resources
 - [Azure Application Gateway Documentation](https://docs.microsoft.com/azure/application-gateway/)
 - [Azure CLI Reference - Application Gateway](https://docs.microsoft.com/cli/azure/network/application-gateway)
 - [Azure Application Gateway Pricing](https://azure.microsoft.com/pricing/details/application-gateway/)
-
-# Azure Login in Azure CLI
-az login
-
-# Sign in with credentials on the command line
-az login -u <username> -p <password>
-
-# Get a list of application gateways
-az network application-gateway list -o table
-
-# Stop-AzApplicationGateway
-az network application-gateway stop -g MyResourceGroup -n MyAppGateway
-
-# Start-AzApplicationGateway
-az network application-gateway start -g MyResourceGroup -n MyAppGateway
-
-# Get a specified application gateway
-az network application-gateway show -g MyResourceGroup -n MyAppGateway
