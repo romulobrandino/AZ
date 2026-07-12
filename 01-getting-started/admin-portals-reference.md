@@ -1,24 +1,48 @@
 # Microsoft Admin Portals Reference
 
-Sequence of admin portals commonly used when onboarding a tenant, in the order
-you'd typically touch them:
+Admin portals commonly used when onboarding a tenant, grouped by category. Within
+each category they're listed in the order you'd typically touch them first.
 
 > Part of the [Getting Started: Tenant & Subscription First-Time Setup](README.md) guide.
 
-| # | Portal | URL |
+## 🔵 Azure Infrastructure
+
+| Portal | URL | Quick Access |
 |---|---|---|
-| 1 | Azure Portal | https://portal.azure.com |
-| 2 | Microsoft Entra admin center | https://entra.microsoft.com |
-| 3 | Microsoft 365 admin center | https://admin.microsoft.com |
-| 4 | Microsoft Defender portal | https://security.microsoft.com |
-| 5 | Microsoft Purview portal | https://purview.microsoft.com |
-| 6 | Microsoft Foundry (formerly Azure AI Foundry) | https://ai.azure.com |
-| 7 | Microsoft Copilot Studio | https://copilotstudio.microsoft.com |
-| 8 | Teams admin center | https://admin.teams.microsoft.com |
-| 9 | SharePoint admin center | https://admin.microsoft.com/sharepoint |
-| 10 | Exchange admin center | https://admin.exchange.microsoft.com |
-| 11 | Intune admin center | https://intune.microsoft.com |
-| 12 | Power Platform admin center | https://admin.powerplatform.microsoft.com |
+| Azure Portal | https://portal.azure.com | Resource groups: https://portal.azure.com/#view/HubsExtension/BrowseResourceGroups |
+| Microsoft Entra admin center | https://entra.microsoft.com | Identity → Users; Applications → App registrations |
+
+## 🟢 Microsoft 365
+
+| Portal | URL | Quick Access |
+|---|---|---|
+| Microsoft 365 admin center | https://admin.microsoft.com | Users → Active users: https://admin.microsoft.com/#/users |
+| Teams admin center | https://admin.teams.microsoft.com | Users: https://admin.teams.microsoft.com/users |
+| Exchange admin center | https://admin.exchange.microsoft.com | Recipients → Mailboxes: https://admin.exchange.microsoft.com/#/mailboxes |
+| SharePoint admin center | https://admin.microsoft.com/sharepoint | Sites → Active sites: https://admin.microsoft.com/sharepoint#/sites |
+| Intune admin center | https://intune.microsoft.com | Devices → All devices |
+
+## 🔴 Security & Compliance
+
+| Portal | URL | Quick Access |
+|---|---|---|
+| Microsoft Defender portal | https://security.microsoft.com | Incidents & alerts: https://security.microsoft.com/incidents |
+| Microsoft Purview portal | https://purview.microsoft.com | Compliance Manager |
+
+## 🟡 AI & Dev
+
+| Portal | URL | Quick Access |
+|---|---|---|
+| Microsoft Foundry (formerly Azure AI Foundry) | https://ai.azure.com | — |
+| Microsoft Copilot Studio | https://copilotstudio.microsoft.com | — |
+| Power Platform admin center | https://admin.powerplatform.microsoft.com | Environments: https://admin.powerplatform.microsoft.com/environments |
+| Azure Scout (Copilot for Azure) | https://aka.ms/scout | — |
+| M365 Copilot Chat | https://m365.cloud.microsoft/chat | — |
+
+> **Note on Quick Access links**: entries with a full URL are stable, documented
+> deep links. Entries showing a navigation path (e.g., "Identity → Users") point to
+> menu items whose underlying blade URLs change between portal releases — use the
+> in-portal search/navigation instead of a hardcoded link for those.
 
 ## What each portal is typically used for
 
@@ -34,6 +58,8 @@ you'd typically touch them:
 - **Exchange admin center** — Manage mailboxes, mail flow rules, and email security.
 - **Intune admin center** — Device management (MDM/MAM), compliance policies, app deployment.
 - **Power Platform admin center** — Manage Power Apps, Power Automate, Power BI, and Dataverse environments.
+- **Azure Scout** — AI-assisted Azure guidance/copilot experience for exploring and troubleshooting Azure resources.
+- **M365 Copilot Chat** — General-purpose Microsoft 365 Copilot chat experience across Word, Excel, Teams, and the web.
 
 ## Additional Resources
 - [Microsoft 365 admin centers overview](https://learn.microsoft.com/microsoft-365/admin/admin-overview/admin-center-overview)

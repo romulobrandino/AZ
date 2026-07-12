@@ -56,6 +56,8 @@ Install-Module -Name Az -Scope AllUsers
 ```bash
 az --version
 ```
+> Requires Azure CLI **2.50+**. If your version is older, update it (see
+> [Update the tools](#update-the-tools) below) before continuing.
 
 ### Install Azure CLI
 
@@ -64,6 +66,21 @@ Documentation: [Install the Azure CLI on Windows](https://learn.microsoft.com/cl
 Install via winget (recommended):
 ```powershell
 winget install --id Microsoft.AzureCLI --source winget
+```
+
+### Update the tools
+
+If you already have the Az module or Azure CLI installed, keep them current —
+older versions can be missing cmdlets/flags referenced in this guide.
+
+```powershell
+# Update the Az module
+Update-Module -Name Az -Scope AllUsers
+```
+
+```bash
+# Update Azure CLI
+az upgrade
 ```
 
 ## 2. Sign in to Azure
@@ -118,8 +135,8 @@ default. Before you can create a resource type (VNet, VM, Storage account, AKS,
 etc.), its **resource provider (RP)** must be registered in the subscription —
 otherwise the deployment fails with an error like `MissingSubscriptionRegistration`.
 
-> ## 👉 [CLICK HERE: register-resource-providers.md](register-resource-providers.md)
-> **Required step** — register all the resource providers you'll need (individually or in
+> 👉 **Required:** [Register Azure Resource Providers](register-resource-providers.md)
+> — register all the resource providers you'll need (individually or in
 > bulk, PowerShell + Azure CLI) before creating any resources. Includes checking
 > registration status and the categorized list of ~48 common providers (Compute,
 > Networking, Storage, Databases, Identity & Security, Containers, Monitoring &
@@ -147,11 +164,12 @@ az provider show --namespace Microsoft.Network --query "registrationState" --out
 
 ## 6. Microsoft admin portals reference
 
-> ## 👉 [CLICK HERE: admin-portals-reference.md](admin-portals-reference.md)
-> Full list of the 12 Microsoft admin portals you'll likely need when onboarding a
+> 👉 **Reference:** [Microsoft admin portals reference](admin-portals-reference.md)
+> — full list of the Microsoft admin portals you'll likely need when onboarding a
 > tenant (Microsoft 365 admin center, Azure Portal, Entra admin center, Defender,
 > Purview, Foundry, Copilot Studio, Teams, SharePoint, Exchange, Intune, Power
-> Platform), in the order you'd typically touch them, plus what each one is used for.
+> Platform, Azure Scout, M365 Copilot Chat), grouped by category (Azure
+> Infrastructure, M365, Security & Compliance, AI & Dev), plus what each one is used for.
 
 ## Additional Resources
 - [Register Azure Resource Providers (full reference)](register-resource-providers.md)
