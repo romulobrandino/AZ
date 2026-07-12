@@ -1,21 +1,69 @@
-# PowerShell Commands
+# Networking Commands
 
-> Sign-in, subscription selection, and resource provider registration now live in
-> [01-getting-started/README.md](../01-getting-started/README.md) — this file covers
-> resource group management and networking diagnostics only.
+Tools and commands for testing network connectivity to/through Azure resources
+(Load Balancer, Application Gateway, VMs, PaaS endpoints), covering both ICMP
+(ping/traceroute) and TCP-based checks — useful since ICMP is often blocked by
+NSGs/firewalls while the underlying TCP/UDP path is actually fine.
 
-## Get-AzResourceGroup
+- **[Test-Connection](#test-connection) / `Test-NetConnection`** — built-in PowerShell
+  cmdlets for ICMP ping, traceroute, and basic TCP port checks.
+- **[PsPing](#psping)** — TCP-based ping/latency/bandwidth testing (Sysinternals),
+  works even when ICMP is blocked.
+- **[TCPING](#tcping)** — lightweight TCP-connect ping, an ICMP-free alternative to `ping`.
+- **[netsh trace](#netsh)** — packet capture for deeper TCP/UDP traffic analysis
+  (e.g. correlating Load Balancer front-end traffic with backend responses).
 
-Retrieve a list of all Resource Groups in the active subscription:
-```PowerShell
-Get-AzResourceGroup
+## PSPING
+
+Download psping/sysinternals:
+- [PsPing download](https://learn.microsoft.com/sysinternals/downloads/psping)
+- [Sysinternals Suite (all tools)](https://learn.microsoft.com/sysinternals/downloads/sysinternals-suite)
+- [Sysinternals home](https://learn.microsoft.com/sysinternals/)
+
+The PsPing command tests ping connectivity through an endpoint. This command also measures the latency and bandwidth availability to a service. To verify that a route is available from your client to a VM through Load Balancer, use the following command. Replace <ip address> and <port> with the IP address and front-end port of the Load Balancer instance.
+    
+```bash
+psping -n 100 -i 0 -q -h <ip address>:<port>
 ```
-For a more concise view, pipe the output to `Format-Table`:
-```PowerShell
-Get-AzResourceGroup | Format-Table
+Flag	Description
+-n	Specifies the number of pings to do.
+-i	Indicates the interval in seconds between iterations.
+-q	Suppresses output during the pings. Only a summary is shown at the end.
+-h	Prints a histogram that shows the latency of the requests.
+
+Typical output looks like this:
+
+```bash
+TCP connect to nn.nn.nn.nn:nn:
+101 iterations (warmup 1) ping test: 100%
+
+TCP connect statistics for nn.nn.nn.nn:nn:
+  Sent = 100, Received = 100, Lost = 0 (0% loss),
+  Minimum = 7.48ms, Maximum = 9.08ms, Average = 8.30ms
+
+Latency Count
+7.48    3
+7.56    2
+7.65    2
+7.73    2
+7.82    7
+7.90    4
+7.98    4
+8.07    6
+8.15    9
+8.24    9
+8.32    11
+8.40    7
+8.49    11
+8.57    12
+8.66    3
+8.74    2
+8.82    2
+8.91    1
+8.99    2
+9.08    1
 ```
 
-# NetworkingCommands
 
 ## Test-Connection
 Sends ICMP echo request packets, or pings, to one or more computers. 
@@ -101,51 +149,7 @@ https://docs.microsoft.com/en-us/windows-server/networking/technologies/netsh/ne
 
 https://docs.microsoft.com/en-us/learn/modules/troubleshoot-inbound-connectivity-azure-load-balancer/3-diagnose-issues-by-reviewing-configurations-and-metrics
 
-## PSPING
 
-The PsPing command tests ping connectivity through an endpoint. This command also measures the latency and bandwidth availability to a service. To verify that a route is available from your client to a VM through Load Balancer, use the following command. Replace <ip address> and <port> with the IP address and front-end port of the Load Balancer instance.
-    
-```bash
-psping -n 100 -i 0 -q -h <ip address>:<port>
-```
-Flag	Description
--n	Specifies the number of pings to do.
--i	Indicates the interval in seconds between iterations.
--q	Suppresses output during the pings. Only a summary is shown at the end.
--h	Prints a histogram that shows the latency of the requests.
-
-Typical output looks like this:
-
-```bash
-TCP connect to nn.nn.nn.nn:nn:
-101 iterations (warmup 1) ping test: 100%
-
-TCP connect statistics for nn.nn.nn.nn:nn:
-  Sent = 100, Received = 100, Lost = 0 (0% loss),
-  Minimum = 7.48ms, Maximum = 9.08ms, Average = 8.30ms
-
-Latency Count
-7.48    3
-7.56    2
-7.65    2
-7.73    2
-7.82    7
-7.90    4
-7.98    4
-8.07    6
-8.15    9
-8.24    9
-8.32    11
-8.40    7
-8.49    11
-8.57    12
-8.66    3
-8.74    2
-8.82    2
-8.91    1
-8.99    2
-9.08    1
-```
 ## TCPING
 
 The tcping utility is similar to ping except that it operates over a TCP connection instead of ICMP, which Load Balancer doesn't route. Use tcping as follows:
