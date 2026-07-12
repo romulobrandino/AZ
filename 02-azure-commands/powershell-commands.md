@@ -1,49 +1,19 @@
 # PowerShell Commands
 
-## Connect Azure Subscription
-```PowerShell
-Connect-AzAccount
-Connect-AzAccount -Tenant 'Tenant_ID'
-Connect-AzAccount -Tenant 'xxxx-xxxx-xxxx-xxxx' -SubscriptionId 'yyyy-yyyy-yyyy-yyyy'
-```
+> Sign-in, subscription selection, and resource provider registration now live in
+> [01-getting-started/README.md](../01-getting-started/README.md) — this file covers
+> resource group management and networking diagnostics only.
 
-## Get all subscriptions in all tenants
-```PowerShell
-Get-AzSubscription
-```
+## Get-AzResourceGroup
 
-## Get all subscriptions for a specific tenant
+Retrieve a list of all Resource Groups in the active subscription:
 ```PowerShell
-Get-AzSubscription -TenantId "aaaa-aaaa-aaaa-aaaa"
+Get-AzResourceGroup
 ```
-
-## Get all subscriptions in the current tenant
+For a more concise view, pipe the output to `Format-Table`:
 ```PowerShell
-Get-AzSubscription -TenantId (Get-AzContext).Tenant
+Get-AzResourceGroup | Format-Table
 ```
-
-## Change the current context to use a specific subscription
-```PowerShell
-Get-AzSubscription -SubscriptionId "xxxx-xxxx-xxxx-xxxx" -TenantId "yyyy-yyyy-yyyy-yyyy" | Set-AzContext
-Get-AzSubscription -Subscription 'Subscription-name'
-```
-
-## Change the active subscription
-```PowerShell
-Set-AzContext -Subscription <subscription name or id>
-Set-AzContext -Subscription "xxxx-xxxx-xxxx-xxxx"
-Set-AzContext -Subscription "subscription name"
-```
-
-#get all subscriptions in the current tenant that are authorized for the current user
-```PowerShell
-Get-AzSubscription -TenantId (Get-AzContext).Tenant
-```
-#get the specified subscription, and then sets the current context to use it.
-```PowerShell
-Get-AzSubscription -SubscriptionId "xxxx-xxxx-xxxx-xxxx" -TenantId "yyyy-yyyy-yyyy-yyyy" | Set-AzContext
-```
-
 
 # NetworkingCommands
 
