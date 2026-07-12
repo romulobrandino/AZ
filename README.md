@@ -13,14 +13,15 @@ That guide walks through, in order:
 3. **List and select the subscription** — `Get-AzSubscription` / `az account set`.
 4. **[Register Azure Resource Providers](01-getting-started/register-resource-providers.md)** — required before creating any resources (VNets, VMs, Storage, AKS, etc.); ~48 providers across 9 categories, individually or in bulk.
 5. **Recommended first steps** — resource group, tags, policy/budgets.
-6. **[Microsoft admin portals reference](01-getting-started/admin-portals-reference.md)** — the 12 admin centers you'll likely need (Azure Portal, Entra, M365, Defender, Purview, Foundry, Copilot Studio, Teams, SharePoint, Exchange, Intune, Power Platform).
+6. **[Microsoft admin portals reference](01-getting-started/admin-portals-reference.md)** — admin portals you'll likely need, grouped by category (Azure Infrastructure, M365, Security & Compliance, AI & Dev): Azure Portal, Entra, M365, Defender, Purview, Foundry, Copilot Studio, Teams, SharePoint, Exchange, Intune, Power Platform, Azure Scout, M365 Copilot Chat.
+7. **[Troubleshooting: common first-time setup errors](01-getting-started/troubleshooting.md)** — fixes for `MissingSubscriptionRegistration`, `AuthorizationFailed`, sign-in hangs, and more.
 
 ## Repository structure
 
 | Folder | Contents |
 |---|---|
 | [01-getting-started/](01-getting-started/README.md) | 👉 Start here for any new tenant/subscription — see above. |
-| [02-azure-commands/](02-azure-commands/) | Azure CLI/PowerShell install guides, cheat-sheets, [PowerShell module best practices](02-azure-commands/powershell-module-best-practices.md), sample Bicep, and networking command references (e.g. Application Gateway). |
+| [02-azure-commands/](02-azure-commands/README.md) | Azure CLI/PowerShell install guides, cheat-sheets, [PowerShell module best practices](02-azure-commands/powershell-module-best-practices.md), sample Bicep, and networking command references (e.g. Application Gateway). |
 | [03-labs/](03-labs/README.md) | Hands-on lab scripts organized by topic: `azure-ad/`, `compute/` (incl. domain controllers under `compute/DCs/`), `devops/`, `networking/`, `storage/`, and ARM/Bicep `templates/`. |
 | [04-azure-docs/](04-azure-docs/) | Short reference notes per Azure service area (AI, big data/analytics, compute, database, DevOps, IoT, networking, storage). |
 

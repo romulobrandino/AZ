@@ -2,8 +2,8 @@
 
 Generic, reusable checklist for preparing a **new Azure tenant/subscription** before
 deploying any resources (VNets, VMs, Storage, etc.). Covers sign-in, subscription
-selection, resource provider registration, and a map of all the Microsoft 365/Azure
-admin portals you'll likely need.
+selection, resource provider registration, a map of all the Microsoft 365/Azure
+admin portals you'll likely need, and troubleshooting for common first-time errors.
 
 > Replace placeholders like `<subscription-id-or-name>`, `<tenant-id>`, and
 > `<resource-provider>` with your own values. Never commit real subscription/tenant
@@ -171,10 +171,16 @@ az provider show --namespace Microsoft.Network --query "registrationState" --out
 > Platform, Azure Scout, M365 Copilot Chat), grouped by category (Azure
 > Infrastructure, M365, Security & Compliance, AI & Dev), plus what each one is used for.
 
+## 7. Troubleshooting: common first-time setup errors
+
+> 👉 **Reference:** [Troubleshooting: common first-time setup errors](troubleshooting.md)
+> — fixes for the errors you're most likely to hit during this setup
+> (`MissingSubscriptionRegistration`, `AuthorizationFailed`, `InvalidSubscriptionId`,
+> `Connect-AzAccount`/`az login` hangs, `AADSTS` sign-in errors, `SubscriptionNotFound`).
+
 ## Additional Resources
 - [Register Azure Resource Providers (full reference)](register-resource-providers.md)
 - [Microsoft admin portals reference](admin-portals-reference.md)
-- [Troubleshooting: common first-time setup errors](troubleshooting.md)
 - [Installing PowerShell on Windows](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows)
 - [Resource providers and types](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-providers-and-types)
 - [Azure CLI: az provider](https://learn.microsoft.com/cli/azure/provider)
