@@ -9,8 +9,10 @@ Microsoft Entra ID (Azure AD) user, group, and resource management.
 - [create-groups.ps1](azure-ad/create-groups.ps1) — create an Entra ID group
 - [create-users.azcli](azure-ad/create-users.azcli), [create-users-simple.ps1](azure-ad/create-users-simple.ps1) — create a user via CLI/PowerShell
 - [create-users.md](azure-ad/create-users.md) — walkthrough for creating and bulk-inviting users
-- [move-resource-group.md](azure-ad/move-resource-group.md) — move resources between resource groups (CLI & PowerShell)
-- [tags.md](azure-ad/tags.md), [tags-cli.md](azure-ad/tags-cli.md) — resource tagging notes and CLI reference
+
+> Resource group management and tagging commands moved to
+> [02-azure-commands/governance/](../02-azure-commands/governance/) (part of the
+> [governance setup guide](../01-getting-started/governance.md)).
 
 ### [compute/](compute)
 Virtual machines and container instances.

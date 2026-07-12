@@ -17,6 +17,7 @@ instead — the files here assume that part is already done.
 | [main.bicep](main.bicep) / [main.bicepparam](main.bicepparam) | Sample Bicep template + parameters for a secured network setup. |
 | [compute/webservers.md](compute/webservers.md) | Install and manage IIS on Windows Server via PowerShell. |
 | [networking/application-gateway-commands.md](networking/application-gateway-commands.md) | Application Gateway start/stop/status commands (Azure CLI + PowerShell). |
+| [governance/](governance/) | Repeatable governance commands: [management-groups.md](governance/management-groups.md), [subscriptions.md](governance/subscriptions.md), [resource-groups.md](governance/resource-groups.md), [tags.md](governance/tags.md), [azure-policy.md](governance/azure-policy.md), [budgets-alerts.md](governance/budgets-alerts.md), [rbac.md](governance/rbac.md). For the one-time setup checklist, see [01-getting-started/governance.md](../01-getting-started/governance.md). |
 
 ## Additional Resources
 - [01-getting-started/](../01-getting-started/README.md) — tenant/subscription first-time setup (sign-in, subscription selection, resource provider registration, admin portals, troubleshooting).

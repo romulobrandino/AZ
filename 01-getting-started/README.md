@@ -167,6 +167,12 @@ az provider show --namespace Microsoft.Network --query "registrationState" --out
 3. Set up Azure Policy / budgets if required by your organization.
 4. Only then start creating networking (VNet/NSG), compute (VM/AKS), and storage resources.
 
+> 👉 **Reference:** [Governance: First-Time Setup](governance.md)
+> — full one-time governance checklist (management group hierarchy, subscription
+> design, resource group naming, tagging strategy, Azure Policy baseline, budgets/cost
+> alerts, RBAC role assignments), with links to the corresponding command references
+> in [02-azure-commands/governance/](../02-azure-commands/governance/).
+
 ## 6. Microsoft admin portals reference
 
 > 👉 **Reference:** [Microsoft admin portals reference](admin-portals-reference.md)
