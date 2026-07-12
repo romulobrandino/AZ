@@ -1,78 +1,153 @@
-# Azure Command-Line Interface (CLI) documentation
+# Azure CLI on Linux — Install, Check, Upgrade, Remove
 
-https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
+Covers the most common Linux flavors: **Debian/Ubuntu** (and derivatives like
+**Kali**), **RHEL/CentOS/Fedora/Oracle Linux**, and **openSUSE/SLES**. Also covers
+**WSL2** (Windows Subsystem for Linux) — since WSL2 runs a real Linux distro
+(usually Ubuntu), the same Debian/Ubuntu instructions apply there.
 
-> For Windows install + `az login`, see
-> [01-getting-started/README.md](../01-getting-started/README.md) (winget-based
-> install). This file covers the Linux/Ubuntu install path only.
+> For **Windows-native** install (winget, MSI) + `az login`, see
+> [01-getting-started/README.md](../01-getting-started/README.md) instead.
 
-## Install Azure in Linux, for example in Ubuntu WSL 2 (Windows Subsystem for Linux)
+Official docs: https://learn.microsoft.com/cli/azure/install-azure-cli-linux
 
-If you are running a distribution that comes with apt, such as Ubuntu or Debian, there's an x86_64 package available for the Azure CLI. This package has been tested with and is supported for:
+## Check if Azure CLI is already installed
 
-* Ubuntu trusty, xenial, artful, bionic, and disco
-* Debian wheezy, jessie, stretch, and buster
-The current version of the Azure CLI is 2.7.0. For information about the latest release, see the release notes. To find your installed version and see if you need to update, run ``az --version.``
+Works the same across all distros and WSL2:
 
-### Install Azure CLI with apt
+```bash
+az --version
+```
 
-**Install**
-We offer two ways to install the Azure CLI with distributions that support apt: As an all-in-one script that runs the install commands for you, and instructions that you can run as a step-by-step process on your own.
+- If you get a version number (e.g. `azure-cli 2.65.0`), it's installed — see
+  [Upgrade](#upgrade-apt) below to make sure it's current.
+- If you get `az: command not found`, jump to the install section for your distro.
 
-**Install with one command**
-We offer and maintain a script which runs all of the installation commands in one step. Run it by using curl and pipe directly to bash, or download the script to a file and inspect it before running.
+Find just the CLI version (no extensions/dependencies):
+```bash
+az version --output table
+```
 
+## 🟦 Debian / Ubuntu / Kali (and other Debian-based distros)
 
-```Bash
+> WSL2 users: if your WSL distro is Ubuntu (the default), use this section.
+> Kali is Debian-based and uses the same `apt` flow — the one-line script below
+> works, but if it fails (Kali sometimes ships an older `curl`/`gnupg`), fall back
+> to the manual steps.
+
+### Install with the one-line script (recommended)
+```bash
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 ```
 
-**Manual install instructions**
-If you don't want to run a script as superuser or the all-in-one script fails, follow these steps to install the Azure CLI.
-
-1. Get packages needed for the install process:
-
-```Bash
+### Manual install (step-by-step)
+1. Install prerequisite packages:
+```bash
 sudo apt-get update
-sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
+sudo apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg
 ```
-
 2. Download and install the Microsoft signing key:
-
-```Bash
+```bash
 curl -sL https://packages.microsoft.com/keys/microsoft.asc |
-    gpg --dearmor |
-    sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+  gpg --dearmor |
+  sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
 ```
-
-3. Add the Azure CLI software repository:
-
-```Bash
+3. Add the Azure CLI software repository (uses your distro's codename, e.g. `jammy`, `noble`, `kali-rolling`):
+```bash
 AZ_REPO=$(lsb_release -cs)
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" |
-    sudo tee /etc/apt/sources.list.d/azure-cli.list
+  sudo tee /etc/apt/sources.list.d/azure-cli.list
 ```
-4. Update repository information and install the azure-cli package:
-
-```Bash
+> If your distro's codename isn't in the Microsoft repo (common on Kali or very
+> new Ubuntu releases), replace `$AZ_REPO` with the closest supported Ubuntu/Debian
+> codename (e.g. `bookworm` or `jammy`) instead.
+4. Update and install:
+```bash
 sudo apt-get update
-sudo apt-get install azure-cli
+sudo apt-get install -y azure-cli
 ```
 
-Run the Azure CLI with the az command. To sign in, use the az login command.
+### Upgrade (apt)
+```bash
+sudo apt-get update
+sudo apt-get install --only-upgrade -y azure-cli
+```
 
-Run the login command.
-```Azure CLI
+### Uninstall (apt)
+```bash
+sudo apt-get remove -y azure-cli
+sudo rm /etc/apt/sources.list.d/azure-cli.list
+```
+
+## 🟥 RHEL / CentOS / Fedora / Oracle Linux (dnf/yum)
+
+### Install
+```bash
+sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
+sudo dnf install azure-cli -y
+```
+> Replace `9.0` with your RHEL major version (e.g. `8`) if different. On older
+> systems without `dnf`, substitute `yum` for `dnf` in both commands.
+
+### Upgrade (dnf/yum)
+```bash
+sudo dnf update azure-cli -y
+# or, on older systems:
+sudo yum update azure-cli -y
+```
+
+### Uninstall (dnf/yum)
+```bash
+sudo dnf remove azure-cli -y
+```
+
+## 🟩 openSUSE / SLES (zypper)
+
+### Install
+```bash
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sudo zypper addrepo --name 'Azure CLI' --check https://packages.microsoft.com/yumrepos/azure-cli azure-cli
+sudo zypper install --from azure-cli azure-cli
+```
+
+### Upgrade (zypper)
+```bash
+sudo zypper update azure-cli
+```
+
+### Uninstall (zypper)
+```bash
+sudo zypper remove azure-cli
+```
+
+## Sign in after install
+
+```bash
 az login
+
+# If the CLI can't open a browser (headless server, WSL2 without a configured
+# browser launcher, SSH session), use a device code instead:
+az login --use-device-code
 ```
 
-If the CLI can open your default browser, it will do so and load an Azure sign-in page.
+If the CLI can open your default browser, it loads an Azure sign-in page.
+Otherwise, open https://aka.ms/devicelogin in any browser and enter the code
+shown in your terminal.
 
-Otherwise, open a browser page at https://aka.ms/devicelogin and enter the authorization code displayed in your terminal.
+Test the connection:
+```bash
+az account list --output table
+```
 
-Sign in with your account credentials in the browser.
+## Troubleshooting
 
-To learn more about different authentication methods, see Sign in with Azure CLI.
+| Symptom | Likely cause | Fix |
+|---|---|---|
+| `az: command not found` after install | Shell session predates the install, or `/usr/bin` isn't on `PATH` | Open a new terminal, or `hash -r` |
+| `apt-get update` fails with a GPG/signature error | Stale or missing Microsoft signing key | Re-run the signing key step above |
+| `az login` never opens a browser (WSL2) | No browser launcher configured in WSL | Use `az login --use-device-code`, or install `wslu`/set `BROWSER` env var to a Windows browser |
+| Installed via script but `az --version` shows an old version | A second `az` binary earlier in `PATH` (e.g. from `pip install azure-cli`) | `which -a az` to find duplicates; remove the old one or reorder `PATH` |
 
-
-You can test the connection with ``az account list`` or az account -h
+## Additional Resources
+- [Install Azure CLI on Linux (official docs)](https://learn.microsoft.com/cli/azure/install-azure-cli-linux)
+- [az login reference](https://learn.microsoft.com/cli/azure/reference-index?view=azure-cli-latest#az-login)
+- [01-getting-started/README.md](../01-getting-started/README.md) — Windows install, sign-in, subscription selection, resource provider registration
