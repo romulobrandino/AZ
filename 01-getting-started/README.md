@@ -68,6 +68,11 @@ Install via winget (recommended):
 winget install --id Microsoft.AzureCLI --source winget
 ```
 
+> **Linux / WSL2 users**: this section covers the Windows-native install. For
+> Debian/Ubuntu/Kali, RHEL/CentOS/Fedora, openSUSE/SLES, and WSL2, see
+> [02-azure-commands/linux-azurecli.md](../02-azure-commands/linux-azurecli.md)
+> instead — it covers check/install/upgrade/remove for each distro.
+
 ### Update the tools
 
 If you already have the Az module or Azure CLI installed, keep them current —
