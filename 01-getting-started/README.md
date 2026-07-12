@@ -174,6 +174,7 @@ az provider show --namespace Microsoft.Network --query "registrationState" --out
 ## Additional Resources
 - [Register Azure Resource Providers (full reference)](register-resource-providers.md)
 - [Microsoft admin portals reference](admin-portals-reference.md)
+- [Troubleshooting: common first-time setup errors](troubleshooting.md)
 - [Installing PowerShell on Windows](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows)
 - [Resource providers and types](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-providers-and-types)
 - [Azure CLI: az provider](https://learn.microsoft.com/cli/azure/provider)

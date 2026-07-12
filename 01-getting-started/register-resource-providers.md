@@ -58,6 +58,30 @@ Registration is asynchronous — it can take a few seconds to a couple of minute
 Re-run the "check registration status" command until `RegistrationState` shows
 `Registered`.
 
+### Wait for registration to complete (script-friendly)
+
+Useful in scripts/pipelines that need to block until the provider is ready before
+creating dependent resources.
+
+**PowerShell**
+```powershell
+do {
+  $state = (Get-AzResourceProvider -ProviderNamespace Microsoft.Network | Select-Object -First 1).RegistrationState
+  if ($state -ne 'Registered') { Start-Sleep -Seconds 5 }
+} until ($state -eq 'Registered')
+
+Write-Host "Microsoft.Network is registered."
+```
+
+**Azure CLI (bash)**
+```bash
+until [[ "$(az provider show --namespace Microsoft.Network --query registrationState --output tsv)" == "Registered" ]]; do
+  sleep 5
+done
+
+echo "Microsoft.Network is registered."
+```
+
 ## Common resource providers to register early
 
 Categorized top providers, cross-checked against Microsoft's official resource-provider-to-service mapping.
@@ -358,3 +382,4 @@ done
 - [Resource providers and types](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-providers-and-types)
 - [Azure CLI: az provider](https://learn.microsoft.com/cli/azure/provider)
 - [PowerShell: Register-AzResourceProvider](https://learn.microsoft.com/powershell/module/az.resources/register-azresourceprovider)
+- [Troubleshooting: common first-time setup errors](troubleshooting.md)
