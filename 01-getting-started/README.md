@@ -96,6 +96,9 @@ Connect-AzAccount
 
 # Specify a tenant explicitly
 Connect-AzAccount -Tenant <tenant-id-or-domain>
+
+# Sign in and set the active subscription in one step
+Connect-AzAccount -Subscription "<subscription-id-or-name>"
 ```
 
 ### Azure CLI
@@ -105,6 +108,9 @@ az login
 
 # If you have access to multiple tenants, specify one explicitly
 az login --tenant <tenant-id-or-domain>
+
+# Sign in and set the active subscription in one step
+az login --subscription "<subscription-id-or-name>"
 ```
 
 ## 3. List and select the subscription
@@ -132,6 +138,14 @@ az account set --subscription "<subscription-id-or-name>"
 # Confirm the active subscription
 az account show --output table
 ```
+
+> `az account list --output table` includes an **`IsDefault`** column. Only one
+> subscription can be `True` at a time — running `az account set --subscription
+> "<subscription-id-or-name>"` flips `IsDefault` to `True` for that subscription
+> (and `False` for the rest) for the current CLI session/user profile. Re-run
+> `az account list --output table` afterward to confirm the change. The
+> PowerShell equivalent is `Set-AzContext` — check the active one anytime with
+> `Get-AzContext`.
 
 ## 4. Register Azure Resource Providers
 
